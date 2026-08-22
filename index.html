@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>DRY DAYS 3.6</title>
+<style>
+:root{--bg:#030405;--card:#08090a;--line:#2a2d31;--text:#f1f2f4;--muted:#a1a4a8;--orange:#ff7a00;--blue:#147ee8;--purple:#9a4cff;--green:#66cf20}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+.app{max-width:480px;margin:auto;padding:32px 20px 46px}.topline{display:flex;justify-content:space-between;font-size:13px;color:#d5d7da;margin-bottom:28px}
+.hero{text-align:center;margin:0 0 34px}.logo{font-size:49px;font-weight:900;letter-spacing:8px;line-height:1}.drytxt{color:var(--orange)}.tagline{font-size:17px;color:#d1d2d5;margin-top:17px}.tagline b{color:var(--orange);font-weight:500}.today{font-size:17px;line-height:1.9;color:#c4c6ca;margin-top:14px}.today .time{color:#aeb0b4}
+.title{font-size:18px;letter-spacing:1.4px;font-weight:800;margin:0 0 16px}.box{border:1px solid var(--line);border-radius:22px;background:linear-gradient(145deg,#090a0b,#050607);box-shadow:0 8px 30px #0008}
+.statsbox{padding:18px 18px 14px}
+.seasonTop{margin:0 0 10px}
+.seasonTopBtn{width:100%;display:flex;align-items:center;gap:10px;padding:13px 14px;background:#0b0c0d;border:1px solid var(--line);border-radius:14px;color:var(--text);text-align:left}
+.seasonTopBtn span{font-size:10px;color:var(--muted);letter-spacing:1px}
+.seasonTopBtn strong{font-size:14px;font-weight:600;margin-left:auto}
+.seasonTopBtn em{font-size:25px;font-style:normal;color:var(--orange);line-height:1}.mainstats{display:grid;grid-template-columns:.8fr 1.45fr .85fr;align-items:center;gap:8px}.smallhead{font-size:10px;color:var(--muted);letter-spacing:.7px}
+.score{font-size:50px;color:var(--orange);font-weight:500;margin-top:15px}.year{font-size:11px;color:#c3c5c8;margin-top:4px}.ring{width:166px;height:166px;border-radius:50%;margin:auto;padding:9px;box-shadow:0 0 14px #ff7a0040,0 0 14px #147ee840;transition:background .6s}
+.ringinner{width:100%;height:100%;border-radius:50%;background:#070809;display:flex;flex-direction:column;align-items:center;justify-content:center}.balance{font-size:42px;font-weight:500}.balance small{font-size:22px}.balancelabel{font-size:10px;color:var(--muted);letter-spacing:.7px;margin-top:4px}.scale{font-size:30px;color:#aeb1b6;margin-top:5px}
+.rightstats{text-align:center}.rightstats .num{font-size:34px;font-weight:500}.blue{color:var(--blue)}.orange{color:var(--orange)}.rightstats .label{font-size:10px;color:#c2c4c7;margin-top:4px;letter-spacing:.6px}.divider{height:1px;background:#292c30;margin:15px 0}.streaklabels{text-align:center;font-size:12px;margin-top:13px}
+.weekbox{margin-top:22px;padding:20px 16px 14px;touch-action:pan-y;overflow:hidden}.weekhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.weekhint{font-size:10px;color:#777}.weekgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;align-items:end;transition:transform .32s cubic-bezier(.2,.8,.2,1),opacity .32s ease}.weekgrid.slide-left{transform:translateX(-55px);opacity:.2}.weekgrid.slide-right{transform:translateX(55px);opacity:.2}.day{text-align:center;min-width:0}.dow{font-size:10px;color:#d1d3d6;margin-bottom:12px}.todaymark{color:#fff;font-weight:800}.icon{height:27px;margin-bottom:8px;display:flex;justify-content:center;align-items:center}.icon svg{width:24px;height:24px}.barwrap{height:90px;display:flex;align-items:flex-end;justify-content:center}.bar{height:62px!important}.bar{width:20px;border-radius:4px 4px 1px 1px;background:linear-gradient(#177ef0,#0d5dc0);box-shadow:0 0 12px #147ee833}.bar.drink{background:linear-gradient(#ff8a12,#bd5900);box-shadow:0 0 12px #ff7a0033}.date{font-size:10px;color:#9da0a5;margin-top:9px}.day.emptyday .icon{visibility:hidden}.day.emptyday .bar{display:none}
+.summary{margin-top:22px;padding:18px 8px 16px}.summarytitle{padding:0 10px 14px;font-size:15px}.summarygrid{display:grid;grid-template-columns:repeat(4,1fr)}.summaryitem{text-align:center;padding:4px 8px;border-right:1px solid #34373b}.summaryitem:last-child{border:0}.summaryicon{height:45px;display:grid;place-items:center}.summaryicon svg{width:34px;height:34px}.summaryvalue{font-size:31px;font-weight:500}.summarylabel{font-size:10px;color:#e0e1e4;line-height:1.4;margin-top:7px}.summarysub{font-size:10px;color:#a2a4a8;margin-top:7px}
+.addbox{margin-top:22px;padding:20px}.addtitle{font-size:16px;font-weight:800;letter-spacing:1px;margin-bottom:15px}.datebutton{width:100%;background:#101112;color:#eee;border:1px solid var(--line);border-radius:12px;padding:13px;margin-bottom:10px;font-size:14px;text-align:left}.addmodes{display:grid;grid-template-columns:1fr 1fr;gap:10px}.modebtn{border:1px solid #333;background:#0c0d0e;color:#ddd;border-radius:15px;padding:16px 8px;font-weight:800;font-size:13px}.modebtn.dry.active{border-color:var(--blue)}.modebtn.drink.active{border-color:var(--orange)}.save{width:100%;margin-top:13px;border:0;border-radius:14px;padding:16px;background:var(--orange);color:#111;font-weight:900;font-size:14px}
+.season{margin-top:22px;padding:18px}.seasonrow{display:flex;justify-content:space-between;align-items:center;gap:12px}.seasonlabel{font-size:10px;color:var(--muted);letter-spacing:1px}.seasonvalue{font-size:14px;margin-top:4px}.change{border:1px solid var(--line);background:#111;color:#ddd;border-radius:10px;padding:9px 11px}
+.ranking{margin-top:22px;padding:18px}.rankrow{display:grid;grid-template-columns:35px 1fr auto;align-items:center;padding:12px 0;border-bottom:1px solid #242629;font-size:13px}.rankrow:last-child{border:0}.rankrow.me{background:#111315;border-radius:12px;padding-left:8px;padding-right:8px;margin:2px 0}.pos{color:#8f9296}.rankscore{color:var(--orange);font-weight:800}.note{text-align:center;color:#74777c;font-size:10px;margin-top:24px}
+.toast{position:fixed;z-index:30;left:50%;bottom:25px;transform:translate(-50%,90px);background:#f3f3f3;color:#111;padding:12px 18px;border-radius:999px;font-size:13px;font-weight:700;transition:.25s}.toast.show{transform:translate(-50%,0)}
+.modal{position:fixed;inset:0;background:#000b;display:none;align-items:flex-end;z-index:20}.modal.open{display:flex}.calendar{width:100%;max-width:480px;margin:auto;background:#101113;border:1px solid #2b2e31;border-radius:25px 25px 0 0;padding:18px 16px 28px}.calhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}.calhead button{background:#181a1c;color:#eee;border:0;border-radius:10px;width:38px;height:38px;font-size:20px}.monthname{font-weight:800}.weeknames,.calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}.weeknames{font-size:10px;color:#777;margin-bottom:6px}.calday{aspect-ratio:1;border:0;background:transparent;color:#ddd;border-radius:50%;font-size:13px}.calday.selected{background:var(--orange);color:#111;font-weight:800}.calday.empty{visibility:hidden}.calday.disabled{color:#555}.calendar .helper{font-size:11px;color:#777;text-align:center;margin:10px 0 0}
+.accountbar{margin:0 0 8px;display:flex;gap:8px;align-items:stretch}.accountbar .accountBtn{flex:1}.accountBtn{width:100%;display:flex;align-items:center;gap:10px;padding:10px 14px;background:#0b0c0d;border:1px solid var(--line);border-radius:14px;color:var(--text);text-align:left}.accountBtn span{font-size:10px;color:var(--muted);letter-spacing:1px}.accountBtn strong{font-size:13px;margin-left:auto}.accountBtn em{font-style:normal;color:var(--purple)}
+.weekgrid.dragging{transition:none!important}.weekgrid.snap{transition:transform .24s cubic-bezier(.2,.8,.2,1)}
+.day{cursor:pointer}.day.editable:active{transform:scale(.96)}
+.accountmodal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:20px;z-index:40}.accountmodal.open{display:flex}.accountcard{width:min(390px,100%);background:#101113;border:1px solid var(--line);border-radius:22px;padding:20px}.accountcard h2{font-size:17px;margin:0 0 14px}.accountchoice{width:100%;display:flex;justify-content:space-between;align-items:center;padding:15px;background:#0a0b0c;color:#eee;border:1px solid #2a2d31;border-radius:14px;margin:8px 0;text-align:left}.accountchoice.active{border-color:var(--purple)}.deleteAccount{margin-left:auto;color:#ff7777;font-size:20px;padding:0 5px;line-height:1}.scoremodalinput{width:100%;background:#090a0b;border:1px solid var(--line);border-radius:14px;color:#fff;padding:16px;font-size:26px;text-align:center}.modalaction{width:100%;margin-top:12px;padding:14px;border:0;border-radius:14px;background:var(--orange);font-weight:800}
+.editname-group{margin:12px 0;display:flex;gap:8px}.editname-input{flex:1;background:#090a0b;border:1px solid var(--line);border-radius:12px;color:#fff;padding:12px;font-size:14px}.editname-btn{padding:12px 16px;background:var(--orange);border:0;border-radius:12px;color:#111;font-weight:800;cursor:pointer}.clearhistory-btn{width:100%;margin-top:8px;padding:12px;border:1px solid #6b2525;background:#150b0b;color:#ff7b7b;border-radius:14px;font-weight:800;cursor:pointer}.adminAccountActions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.adminAccountActions button{flex:1 1 45%;padding:10px;border-radius:11px;border:1px solid #353940;background:#101113;color:#ddd;font-weight:700}.adminAccountActions .danger{border-color:#6b2525;color:#ff7b7b;background:#150b0b}.adminAccountActions .adminrole{border-color:#5b4a7c;color:#cdb8ff}.adminAccountLabel{font-size:11px;color:#888;margin-top:4px}.accountdivider{height:1px;background:#292c30;margin:22px 4px 12px}.logoutHomeBox{margin-top:22px;padding:18px}.homeLogout{width:100%;margin:0;border-color:var(--orange);color:#ddd}.homeLogout:hover{border-color:var(--orange)}
+.rankinghead{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.accountPlus{width:48px;border-radius:14px;border:1px solid var(--orange);background:#12100d;color:var(--orange);font-size:28px;line-height:1;flex:0 0 48px}.rankingempty{text-align:center;color:#777;padding:12px 0 4px;font-size:12px}.addAccountBottom{width:100%;margin-top:14px;padding:13px;border:1px solid var(--orange);border-radius:14px;background:#120d09;color:var(--orange);font-weight:800;letter-spacing:.5px}
+.weekbox{overflow:hidden}.weekviewport{overflow:hidden;touch-action:pan-y;cursor:grab}.weektrack{display:flex;width:max-content;will-change:transform}.weekgrid{display:flex!important;gap:0;width:max-content;transition:none!important}.weekgrid .day{width:calc(var(--day-width, 40px));flex:0 0 var(--day-width, 40px)}.weekgrid .dow,.weekgrid .date{white-space:nowrap}.weekgrid.dragging{transition:none!important}
+.day.selectedDay{outline:1px solid var(--orange);border-radius:12px;background:#ffffff05}
+.loginScreen{position:fixed;inset:0;z-index:100;background:#090a0b;display:flex;align-items:center;justify-content:center;padding:24px}.loginCard{width:min(390px,100%);background:#111214;border:1px solid var(--line);border-radius:24px;padding:24px}.loginCard h1{margin:0 0 6px}.loginCard p{color:#888;font-size:13px;margin:0 0 20px}.loginCard input{width:100%;box-sizing:border-box;margin:7px 0;padding:15px;border-radius:14px;border:1px solid var(--line);background:#090a0b;color:#fff;font-size:16px}.loginError{min-height:18px;color:#ff7a7a;font-size:12px;margin-top:8px}.hiddenApp{display:none!important}.adminOnly{display:none}.admin .adminOnly{display:flex}
+.viewerCard{width:min(480px,100%);max-height:88vh;overflow:auto;background:#101113;border:1px solid var(--line);border-radius:22px;padding:18px}.viewerHead{display:flex;justify-content:space-between;align-items:center;gap:12px}.viewerHead h2{margin:0;font-size:18px}.viewerClose{background:#181a1c;color:#eee;border:0;border-radius:10px;width:38px;height:38px;font-size:20px}.viewerStats{display:grid;grid-template-columns:.82fr 1.45fr .85fr;align-items:center;gap:8px;margin:18px 0}.viewerScoreBlock{text-align:left;padding-left:2px}.viewerScoreBlock .smallhead{margin-bottom:12px}.viewerScoreNumber{font-size:48px;color:var(--orange);font-weight:500}.viewerScoreSeason{font-size:11px;color:#c3c5c8;margin-top:4px}.viewerRing{width:166px;height:166px;border-radius:50%;margin:auto;padding:9px;box-shadow:0 0 14px #ff7a0040,0 0 14px #147ee840}.viewerRingInner{width:100%;height:100%;border-radius:50%;background:#070809;display:flex;flex-direction:column;align-items:center;justify-content:center}.viewerBalance{font-size:42px}.viewerBalance small{font-size:22px}.viewerSub{font-size:10px;color:#a1a4a8;letter-spacing:.7px;margin-top:4px}.viewerNum{text-align:center}.viewerNum b{display:block;font-size:34px;font-weight:500}.viewerNum span{font-size:10px;color:#c2c4c7;letter-spacing:.6px;white-space:nowrap}.viewerDivider{height:1px;background:#292c30;margin:15px 0}.viewerListTitle{font-size:12px;color:#a1a4a8;letter-spacing:1px;margin:12px 0 6px}.viewerHistory{border-top:1px solid #242629}.viewerRow{display:grid;grid-template-columns:1fr auto;gap:10px;padding:12px 2px;border-bottom:1px solid #242629;font-size:13px}.viewerType.dry{color:var(--blue)}.viewerType.drink{color:var(--orange)}.rankrow{cursor:pointer}.rankrow:hover{background:#111315}.rankrow.me{cursor:default}@media(max-width:370px){.viewerRing{width:145px;height:145px}.viewerScoreNumber{font-size:42px}.viewerNum b{font-size:29px}}
+@media(max-width:370px){.app{padding-left:12px;padding-right:12px}.logo{font-size:42px}.ring{width:148px;height:148px}.score{font-size:43px}.rightstats .num{font-size:29px}}
+</style>
+</head>
+<body>
+<main class="app">
+<header class="hero"><div class="logo"><span class="drytxt">DRY</span> DAYS</div><div class="tagline">Track. <b>Don't judge.</b></div><div class="today"><div id="weekday"></div><div id="fullDate"></div><div class="time">◷ <span id="clock"></span></div></div></header>
+<h1 class="title">STATISTICS</h1>
+<div class="accountbar"><button id="accountBtn" class="accountBtn"><span>ACCOUNT</span><strong id="accountName">Kamil</strong><em>⌄</em></button></div>
+<div class="seasonTop adminOnly"><button id="seasonBtn" class="seasonTopBtn"><span>SEASON START</span><strong id="seasonValue">Choose date</strong><em>›</em></button></div><div class="seasonTop"><button id="startingScoreBtn" class="seasonTopBtn"><span>STARTING SCORE</span><strong id="startingScoreValue">0</strong><em>›</em></button></div>
+<section class="box statsbox"><div class="mainstats"><div><div class="smallhead">SCORE</div><div class="score" id="score">0</div><div class="year">This Season</div></div><div class="ring" id="ring"><div class="ringinner"><div class="balance"><span id="balance">0</span><small>%</small></div><div class="balancelabel">BALANCE</div><div class="scale">⚖</div></div></div><div class="rightstats"><div><div class="num blue" id="dryDays">0</div><div class="label">DRY DAYS</div></div><div class="divider"></div><div><div class="num orange" id="drinkDays">0</div><div class="label">DRINK DAYS</div></div></div></div><div class="streaklabels"><span class="blue">Dry Streak</span> · <span class="orange">Drink Streak</span></div></section>
+<section class="box weekbox" id="weekBox"><div class="weekhead"><div class="title" style="font-size:15px;margin:0">LAST 7 DAYS</div><div class="weekhint" id="weekHint">Swipe to history</div></div><div class="weekviewport" id="weekViewport"><div class="weektrack"><div class="weekgrid" id="weekChart"></div></div></div></section>
+<section class="box addbox"><div class="addtitle">ADD RECORD</div>
+<div id="adminRecordForWrap" style="display:none;margin-bottom:10px"><select id="recordOwnerSelect" class="scoremodalinput" style="font-size:16px;padding:12px"></select></div>
+<button class="datebutton" id="recordDateBtn">Choose date</button><div class="addmodes"><button class="modebtn dry active" id="dryBtn">DRY DAY</button><button class="modebtn drink" id="drinkBtn">DRINK DAY</button></div><button class="save" id="saveBtn">SAVE RECORD</button><button class="clearhistory-btn" id="deleteRecordBtn" style="display:none;margin-top:10px">DELETE THIS RECORD</button></section>
+<section class="box summary"><div class="summarytitle">SUMMARY</div><div class="summarygrid"><div class="summaryitem"><div class="summaryicon blue" id="dryIcon"></div><div class="summaryvalue blue" id="dryStreak">0</div><div class="summarylabel">DRY STREAK</div><div class="summarysub" id="dryBest">Best: 0 days</div></div><div class="summaryitem"><div class="summaryicon orange" id="drinkIcon"></div><div class="summaryvalue orange" id="drinkStreak">0</div><div class="summarylabel">DRINK STREAK</div><div class="summarysub" id="drinkBest">Best: 0 days</div></div><div class="summaryitem"><div class="summaryicon" style="color:var(--purple)" id="trophyIcon"></div><div class="summaryvalue" style="color:var(--purple)">#1</div><div class="summarylabel">RANKING</div><div class="summarysub">Live ranking</div></div><div class="summaryitem"><div class="summaryicon" style="color:var(--green)" id="starIcon"></div><div class="summaryvalue" style="color:var(--green)" id="bestScore">0</div><div class="summarylabel">BEST SCORE</div><div class="summarysub" id="bestScoreDate">—</div></div></div></section>
+<section class="box ranking"><div class="rankinghead"><div class="title" style="font-size:15px;margin:0">RANKING</div></div><div id="rankingRows"></div><button id="addAccountBtn" class="addAccountBottom adminOnly">+ ADD ACCOUNT</button></section><section class="box logoutHomeBox"><button id="homeLogoutBtn" class="modebtn drink homeLogout">LOG OUT</button></section><div class="note">DRY DAYS • ONE HOMEPAGE</div></main>
+<div class="loginScreen" id="loginScreen"><div class="loginCard"><h1>DRY DAYS</h1><p>Sign in to your account</p><input id="loginUser" placeholder="Username" autocapitalize="none"><input id="loginPass" type="password" placeholder="Password"><button class="modalaction" id="loginBtn">LOGIN</button><div class="loginError" id="loginError"></div></div></div>
+<div class="modal" id="modal"><div class="calendar"><div class="calhead"><button id="prev">‹</button><div class="monthname" id="monthName"></div><button id="next">›</button></div><div class="weeknames"><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span></div><div class="calgrid" id="calGrid"></div><div class="helper">Tap a day to select it immediately</div></div></div>
+<div class="toast" id="toast"></div>
+<div class="accountmodal" id="accountModal"><div class="accountcard"><h2>ACCOUNT</h2><div id="accountChoices"></div><button class="modalaction" id="closeAccounts">DONE</button></div></div>
+<div class="accountmodal" id="viewerModal"><div class="viewerCard"><div class="viewerHead"><h2 id="viewerName">ACCOUNT</h2><button id="viewerClose" class="viewerClose">×</button></div><div class="viewerStats"><div class="viewerScoreBlock"><div class="smallhead">SCORE</div><div class="viewerScoreNumber" id="viewerScore">0</div><div class="viewerScoreSeason">This Season</div></div><div class="viewerRing" id="viewerRing"><div class="viewerRingInner"><div class="viewerBalance"><span id="viewerBalance">0</span><small>%</small></div><div class="viewerSub">BALANCE</div><div class="scale">⚖</div></div></div><div class="viewerNum"><div><b class="blue" id="viewerDry">0</b><span>DRY DAYS</span></div><div class="viewerDivider"></div><div><b class="orange" id="viewerDrink">0</b><span>DRINK DAYS</span></div></div></div><div class="viewerListTitle">LAST 7 DAYS</div><div class="viewerHistory" id="viewerHistory"></div></div></div><div class="accountmodal" id="scoreModal"><div class="accountcard"><h2>STARTING SCORE</h2><input id="startingScoreInput" class="scoremodalinput" type="number" step="1" value="0"><button class="modalaction" id="saveStartingScore">SAVE</button></div></div>
+<div class="accountmodal" id="newAccountModal"><div class="accountcard"><h2>ADD ACCOUNT</h2><input id="newAccountName" class="scoremodalinput" type="text" maxlength="24" placeholder="Name"><input id="newAccountUser" class="scoremodalinput" type="text" maxlength="24" placeholder="Username" style="margin-top:8px"><input id="newAccountPass" class="scoremodalinput" type="password" maxlength="64" placeholder="Password" style="margin-top:8px"><button class="modalaction" id="createAccountBtn">ADD ACCOUNT</button></div></div>
+<script>
+const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+const SUPABASE_URL='https://brdddsdxgwblmqgkkuei.supabase.co';
+const SUPABASE_KEY='sb_publishable_AtJQWJ2t3_C7EIHndp8N3g_U99vB6Uk';
+const SESSION_KEY='drydays-online-session-token';
+const weekdays=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+const dropSVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2.5C9 6.5 5.5 10.3 5.5 14.5A6.5 6.5 0 0 0 18.5 14.5C18.5 10.3 15 6.5 12 2.5Z"/></svg>';
+const beerSVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 7h11v12H5zM16 9h2.5A2.5 2.5 0 0 1 21 11.5v3A2.5 2.5 0 0 1 18.5 17H16M7 4h7M8 4v3M11 4v3M14 4v3"/></svg>';
+const trophySVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M7 6H4v2a4 4 0 0 0 4 4M17 6h3v2a4 4 0 0 1-4 4M12 14v4M8 21h8M9 18h6"/></svg>';
+const starSVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m12 2 3.1 6.3L22 9.3l-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1Z"/></svg>';
+$('#dryIcon').innerHTML=dropSVG; $('#drinkIcon').innerHTML=beerSVG; $('#trophyIcon').innerHTML=trophySVG; $('#starIcon').innerHTML=starSVG;
+
+let today=new Date(); today.setHours(0,0,0,0);
+let sessionToken=sessionStorage.getItem(SESSION_KEY)||null;
+let activeAccount=null;
+let registry={};
+let allRecords=[];
+let seasonStart=key(today), seasonId=1;
+let account={startingScore:0,records:[]};
+let startingScore=0;
+let records=[];
+let selectedDate=new Date(today);
+let calendarMode='record', viewDate=new Date(selectedDate.getFullYear(),selectedDate.getMonth(),1);
+let mode='dry', selectedHistoryKey=null;
+let syncing=false;let savingRecord=false;
+
+function key(d){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${day}`;}
+function parseDate(s){const [y,m,d]=String(s).split('-').map(Number);return new Date(y,m-1,d);}
+function displayDate(s){return parseDate(s).toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'});}
+function fmtShort(d){return d.toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit'}).replace('/','.');}
+function toast(m){$('#toast').textContent=m;$('#toast').classList.add('show');setTimeout(()=>$('#toast').classList.remove('show'),1800);}
+function normalizeRecords(list){
+  const map=new Map();
+  (Array.isArray(list)?list:[]).forEach(r=>{
+    if(!r||!r.date||!['dry','drink'].includes(r.type))return;
+    const userId=String(r.userId||r.user_id||'');
+    const recordDate=String(r.date);
+    // Records from different users may share the same date.
+    // Keep uniqueness by user + date, not by date alone.
+    map.set(`${userId}|${recordDate}`,{...r,userId:userId||r.userId,date:recordDate,type:r.type});
+  });
+  return [...map.values()].sort((a,b)=>{
+    const ad=a.date.localeCompare(b.date);
+    return ad||(String(a.userId||a.user_id||'').localeCompare(String(b.userId||b.user_id||'')));
+  });
+}
+function accountLabel(){return registry[activeAccount]?.name||'Account';}
+function isAdmin(){return registry[activeAccount]?.role==='admin';}
+function populateRecordOwnerSelect(){
+  const wrap=$('#adminRecordForWrap'),select=$('#recordOwnerSelect');
+  if(!wrap||!select)return;
+  if(!isAdmin()){wrap.style.display='none';return;}
+  const previous=select.value||activeAccount;
+  wrap.style.display='block';
+  select.innerHTML='';
+  Object.entries(registry).sort((a,b)=>a[1].name.localeCompare(b[1].name)).forEach(([id,meta])=>{
+    const option=document.createElement('option');
+    option.value=id;option.textContent=id===activeAccount?`${meta.name} (You)`:meta.name;
+    select.appendChild(option);
+  });
+  select.value=registry[previous]?previous:activeAccount;
+}
+function recordOwnerId(){return isAdmin()?($('#recordOwnerSelect')?.value||activeAccount):activeAccount;}
+setTimeout(()=>{const select=$('#recordOwnerSelect');if(select&&!select.dataset.bound){select.dataset.bound='1';select.onchange=()=>render();}},0);
+function applyRoleUI(){
+  document.body.classList.toggle('admin',isAdmin());
+  document.body.classList.toggle('loggedIn',!!activeAccount);
+  populateRecordOwnerSelect();
+}
+
+async function rpc(name,body={}){
+  const res=await fetch(`${SUPABASE_URL}/rest/v1/rpc/${name}`,{
+    method:'POST',
+    headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json'},
+    body:JSON.stringify(body)
+  });
+  const text=await res.text();
+  let data=null;try{data=text?JSON.parse(text):null}catch{data=text;}
+  if(!res.ok){throw new Error(data?.message||data?.error||data?.hint||text||`Request failed (${res.status})`);}
+  return data;
+}
+
+function applyData(data){
+  if(!data)throw new Error('No data returned');
+  registry={};
+  (data.users||[]).forEach(u=>{registry[u.id]={name:u.name,username:u.username,role:u.role,startingScore:Number(u.startingScore)||0};});
+  allRecords=normalizeRecords(data.records||[]);
+  seasonStart=data.settings?.seasonStart||seasonStart;
+  seasonId=Number(data.settings?.seasonId)||1;
+  if(!registry[activeAccount])throw new Error('Session expired');
+  records=allRecords.filter(r=>r.userId===activeAccount||r.user_id===activeAccount);
+  startingScore=Number(registry[activeAccount]?.startingScore)||0;
+  account={startingScore,records};
+  if(selectedDate<parseDate(seasonStart)||selectedDate>today)selectedDate=new Date(today);
+  applyRoleUI();
+}
+
+async function syncData({quiet=false}={}){
+  if(!sessionToken||syncing||savingRecord)return;
+  syncing=true;
+  try{
+    const data=await rpc('app_get_data',{p_token:sessionToken});
+    applyData(data);
+    render();
+  }catch(err){
+    if(!quiet){console.error(err);toast(err.message||'Could not sync data');}
+    if(/session expired|not logged in|session/i.test(String(err.message))){sessionStorage.removeItem(SESSION_KEY);sessionToken=null;activeAccount=null;applyRoleUI();document.querySelector('main').classList.add('hiddenApp');$('#loginScreen').style.display='flex';}
+  }finally{syncing=false;}
+}
+
+function streaks(){
+  const season=parseDate(seasonStart);
+  const recordMap=new Map(normalizeRecords(records).filter(r=>parseDate(r.date)>=season&&parseDate(r.date)<=today).map(r=>[r.date,r.type]));
+  const result={dry:{current:0,best:0},drink:{current:0,best:0}};
+  for(const type of ['dry','drink']){
+    let run=0,best=0;
+    for(let d=new Date(season);d<=today;d.setDate(d.getDate()+1)){if(recordMap.get(key(d))===type){run++;best=Math.max(best,run)}else run=0;}
+    let current=0;
+    for(let d=new Date(today);d>=season;d.setDate(d.getDate()-1)){if(recordMap.get(key(d))===type)current++;else break;}
+    result[type]={current,best};
+  }
+  return result;
+}
+
+function userRecords(id){return allRecords.filter(r=>(r.userId||r.user_id)===id);}
+function scoreForAccount(id){
+  const total=userRecords(id).filter(r=>parseDate(r.date)>=parseDate(seasonStart)&&parseDate(r.date)<=today).reduce((sum,r)=>sum+(r.type==='dry'?1:-1),0);
+  return (Number(registry[id]?.startingScore)||0)+total;
+}
+
+function render(){
+  if(!activeAccount||!registry[activeAccount])return;
+  const season=parseDate(seasonStart);
+  const seasonRecords=normalizeRecords(records).filter(r=>parseDate(r.date)>=season&&parseDate(r.date)<=today);
+  const dry=seasonRecords.filter(r=>r.type==='dry').length;
+  const drink=seasonRecords.filter(r=>r.type==='drink').length;
+  const total=dry+drink;
+  const score=startingScore+dry-drink;
+  const bal=total?Math.round(dry/total*100):0;
+  $('#score').textContent=score; $('#dryDays').textContent=dry; $('#drinkDays').textContent=drink; $('#balance').textContent=bal;
+  $('#ring').style.background=total?`conic-gradient(var(--orange) 0 ${100-bal}%,var(--blue) ${100-bal}% 100%)`:'conic-gradient(#2a2d31 0 100%)';
+  const allStreaks=streaks(),ds=allStreaks.dry,dr=allStreaks.drink;
+  $('#dryStreak').textContent=ds.current; $('#drinkStreak').textContent=dr.current; $('#dryBest').textContent=`Best: ${ds.best} days`; $('#drinkBest').textContent=`Best: ${dr.best} days`;
+  const seasonRecordMap=new Map(seasonRecords.map(r=>[r.date,r]));
+  let running=startingScore,bestScore=startingScore,bestDate=seasonStart;
+  for(let d=new Date(season);d<=today;d.setDate(d.getDate()+1)){const r=seasonRecordMap.get(key(d));if(r){running+=r.type==='dry'?1:-1;if(running>=bestScore){bestScore=running;bestDate=key(d);}}}
+  if($('#bestScore'))$('#bestScore').textContent=bestScore;
+  $('#bestScoreDate').textContent=displayDate(bestDate);
+  $('#seasonValue').textContent=displayDate(seasonStart);
+  $('#startingScoreValue').textContent=(startingScore>0?'+':'')+startingScore;
+  $('#accountName').textContent=accountLabel();
+  $('#recordDateBtn').textContent=displayDate(key(selectedDate));
+  const deleteRecordBtn=$('#deleteRecordBtn');
+  if(deleteRecordBtn){
+    const targetId=recordOwnerId();
+    deleteRecordBtn.style.display=userRecords(targetId).some(r=>r.date===key(selectedDate))?'block':'none';
+  }
+
+  const board=Object.entries(registry).map(([id,meta])=>({id,name:meta.name,score:scoreForAccount(id)})).sort((a,b)=>b.score-a.score||a.name.localeCompare(b.name));
+  const rankRows=$('#rankingRows');rankRows.innerHTML='';
+  board.forEach((player,index)=>{const row=document.createElement('div');row.className='rankrow'+(player.id===activeAccount?' me':'');row.innerHTML=`<span class="pos">${index+1}</span><b>${player.name}${player.id===activeAccount?' (You)':''}</b><span class="rankscore">${player.score}</span>`;if(player.id!==activeAccount)row.onclick=()=>openAccountViewer(player.id);rankRows.appendChild(row);});
+  const yourRank=Math.max(1,board.findIndex(player=>player.id===activeAccount)+1);
+  const summaryRank=document.querySelector('.summaryitem:nth-child(3) .summaryvalue'),summaryRankSub=document.querySelector('.summaryitem:nth-child(3) .summarysub');
+  if(summaryRank){summaryRank.textContent='#'+yourRank;summaryRankSub.textContent='Live ranking';}
+
+  const earliestRecord=records.length?parseDate(records.reduce((min,r)=>r.date<min?r.date:min,records[0].date)):season;
+  const historyStart=new Date(Math.min(earliestRecord,season));const days=[];
+  for(let d=new Date(historyStart);d<=today;d.setDate(d.getDate()+1))days.push(new Date(d));
+  const grid=$('#weekChart');grid.innerHTML='';const viewportWidth=$('#weekViewport').clientWidth;grid.style.setProperty('--day-width',`${Math.max(1,viewportWidth/7)}px`);
+  $('#weekHint').textContent=days.length>7?'Drag right for history':(days.length?'':'No history yet');
+  days.forEach(dt=>{const rec=records.find(r=>r.date===key(dt));const type=rec?.type||null;const el=document.createElement('div');el.className='day'+(!rec?' emptyday':'')+(selectedHistoryKey===key(dt)?' selectedDay':'');const icon=type==='dry'?dropSVG:type==='drink'?beerSVG:'';el.innerHTML=`<div class="dow">${weekdays[dt.getDay()]}</div><div class="icon ${type==='dry'?'blue':type==='drink'?'orange':'muted'}">${icon}</div><div class="barwrap"><div class="bar ${type==='drink'?'drink':''} ${!type?'none':''}"></div></div><div class="date">${fmtShort(dt)}</div>`;el.onclick=()=>{selectedDate=new Date(dt);selectedHistoryKey=key(dt);$('#recordDateBtn').textContent=displayDate(key(selectedDate));render();};grid.appendChild(el);});
+  // Keep the week/history position where the user swiped it.
+  // Only move to the current week on the first history render.
+  requestAnimationFrame(()=>{
+    if(!historyPositionInitialized){
+      positionHistoryToCurrent();
+      historyPositionInitialized=true;
+    }else{
+      applyTranslate(translateX);
+    }
+  });
+}
+
+function openCalendar(which){calendarMode=which;const base=which==='record'?selectedDate:parseDate(seasonStart);viewDate=new Date(base.getFullYear(),base.getMonth(),1);$('#modal').classList.add('open');drawCalendar();}
+function drawCalendar(){
+  const y=viewDate.getFullYear(),m=viewDate.getMonth();$('#monthName').textContent=viewDate.toLocaleDateString('en-US',{month:'long',year:'numeric'});const grid=$('#calGrid');grid.innerHTML='';
+  const first=(new Date(y,m,1).getDay()+6)%7,days=new Date(y,m+1,0).getDate();
+  for(let i=0;i<first;i++){const e=document.createElement('button');e.className='calday empty';grid.appendChild(e);}
+  for(let d=1;d<=days;d++){
+    const dt=new Date(y,m,d),b=document.createElement('button');b.className='calday';b.textContent=d;
+    const selected=calendarMode==='record'?key(selectedDate):seasonStart;if(key(dt)===selected)b.classList.add('selected');
+    if(calendarMode==='record'&&(dt<parseDate(seasonStart)||dt>today)){b.classList.add('disabled');b.disabled=true;}
+    b.onclick=async()=>{
+      if(calendarMode==='record'){selectedDate=new Date(dt);$('#modal').classList.remove('open');render();return;}
+      const newStart=key(dt);
+      if(!isAdmin())return;
+      try{await rpc('app_update_season',{p_token:sessionToken,p_season_start:newStart});seasonStart=newStart;if(selectedDate<dt)selectedDate=new Date(dt);$('#modal').classList.remove('open');await syncData();toast('Season updated');}catch(err){toast(err.message||'Could not update season');}
+    };
+    grid.appendChild(b);
+  }
+}
+$('#recordDateBtn').onclick=()=>openCalendar('record');
+$('#seasonBtn').onclick=()=>{if(isAdmin())openCalendar('season');};
+$('#prev').onclick=()=>{viewDate.setMonth(viewDate.getMonth()-1);drawCalendar();};
+$('#next').onclick=()=>{viewDate.setMonth(viewDate.getMonth()+1);drawCalendar();};
+$('#modal').onclick=e=>{if(e.target===$('#modal'))$('#modal').classList.remove('open');};
+$('#dryBtn').onclick=()=>{mode='dry';$('#dryBtn').classList.add('active');$('#drinkBtn').classList.remove('active');};
+$('#drinkBtn').onclick=()=>{mode='drink';$('#drinkBtn').classList.add('active');$('#dryBtn').classList.remove('active');};
+
+$('#saveBtn').onclick=async()=>{
+  if(savingRecord)return;
+  if(selectedDate<parseDate(seasonStart)||selectedDate>today){toast('Choose a date inside your season');return;}
+  const d=key(selectedDate),targetId=recordOwnerId(),existing=userRecords(targetId).find(r=>r.date===d);
+  const oldRecords=records.map(r=>({...r}));
+  const oldAllRecords=allRecords.map(r=>({...r}));
+  const optimistic={id:existing?.id??`pending-${targetId}-${d}`,userId:targetId,date:d,type:mode};
+  savingRecord=true;
+  const btn=$('#saveBtn'),oldLabel=btn.textContent;
+  btn.disabled=true;btn.textContent='SAVING...';
+  if(targetId===activeAccount)records=normalizeRecords(records.filter(r=>r.date!==d).concat(optimistic));
+  allRecords=allRecords.filter(r=>!((r.userId===targetId||r.user_id===targetId)&&r.date===d));
+  allRecords=normalizeRecords(allRecords.concat(optimistic));
+  render();
+  try{
+    const saved=targetId===activeAccount
+      ?await rpc('app_save_record',{p_token:sessionToken,p_record_date:d,p_record_type:mode})
+      :await rpc('app_admin_save_record',{p_token:sessionToken,p_user_id:targetId,p_record_date:d,p_record_type:mode});
+    const savedRecord={...optimistic,...(saved||{}),userId:saved?.userId||saved?.user_id||targetId};
+    if(targetId===activeAccount)records=normalizeRecords(records.filter(r=>r.date!==d).concat(savedRecord));
+    allRecords=allRecords.filter(r=>!((r.userId===targetId||r.user_id===targetId)&&r.date===d));
+    allRecords=normalizeRecords(allRecords.concat(savedRecord));
+    render();
+
+    // The save succeeded. Now reload the authoritative database state so
+    // earlier records cannot be accidentally dropped by a local merge.
+    const fresh=await rpc('app_get_data',{p_token:sessionToken});
+    applyData(fresh);
+    render();
+
+    toast(existing?(existing.type===mode?'Record saved':'Record updated'):'Record saved');
+  }catch(err){
+    records=oldRecords;allRecords=oldAllRecords;render();
+    toast(err.message||'Could not save record');
+  }finally{
+    savingRecord=false;btn.disabled=false;btn.textContent=oldLabel;
+  }
+};
+
+$('#deleteRecordBtn').onclick=async()=>{
+  const d=key(selectedDate),targetId=recordOwnerId(),existing=userRecords(targetId).find(r=>r.date===d);
+  if(!existing){toast('No record for this date');return;}
+  if(!confirm(`Delete record for ${displayDate(d)}?`))return;
+  const btn=$('#deleteRecordBtn');btn.disabled=true;
+  try{
+    if(targetId===activeAccount)await rpc('app_delete_record',{p_token:sessionToken,p_record_date:d});
+    else await rpc('app_admin_delete_record',{p_token:sessionToken,p_user_id:targetId,p_record_date:d});
+    await syncData();
+    toast('Record deleted');
+  }catch(err){toast(err.message||'Could not delete record');}
+  finally{btn.disabled=false;}
+};
+
+const viewport=$('#weekViewport'),track=$('.weektrack');
+window.addEventListener('resize',()=>{
+  const w=viewport.clientWidth;
+  $('#weekChart').style.setProperty('--day-width',`${Math.max(1,w/7)}px`);
+  requestAnimationFrame(()=>applyTranslate(translateX));
+});
+let dragStartX=null,dragLastX=null,baseTranslate=0,translateX=0,velocity=0,lastMoveTime=0,raf=null;
+let historyPositionInitialized=false;
+function bounds(){const vw=viewport.clientWidth,tw=$('#weekChart').scrollWidth;return{min:Math.min(0,vw-tw),max:0};}
+function applyTranslate(x){const b=bounds();translateX=Math.max(b.min,Math.min(b.max,x));track.style.transform=`translate3d(${translateX}px,0,0)`;}
+function positionHistoryToCurrent(){const b=bounds();if(!dragStartX)applyTranslate(b.min);}
+function finishInertia(){if(Math.abs(velocity)<.03)return;const step=()=>{velocity*=.93;applyTranslate(translateX+velocity*16);if(Math.abs(velocity)>=.03)raf=requestAnimationFrame(step);};raf=requestAnimationFrame(step);}
+viewport.addEventListener('touchstart',e=>{if(raf)cancelAnimationFrame(raf);dragStartX=dragLastX=e.touches[0].clientX;baseTranslate=translateX;velocity=0;lastMoveTime=performance.now();$('#weekChart').classList.add('dragging');},{passive:true});
+viewport.addEventListener('touchmove',e=>{if(dragStartX===null)return;const x=e.touches[0].clientX,now=performance.now(),dx=x-dragLastX,dt=Math.max(1,now-lastMoveTime);velocity=dx/dt;dragLastX=x;lastMoveTime=now;applyTranslate(baseTranslate+(x-dragStartX));},{passive:true});
+viewport.addEventListener('touchend',()=>{if(dragStartX===null)return;dragStartX=dragLastX=null;$('#weekChart').classList.remove('dragging');finishInertia();},{passive:true});
+
+$('#startingScoreBtn').onclick=()=>{$('#startingScoreInput').value=startingScore;$('#scoreModal').classList.add('open');};
+$('#saveStartingScore').onclick=async()=>{const value=Number($('#startingScoreInput').value)||0;try{await rpc('app_update_starting_score',{p_token:sessionToken,p_starting_score:value});$('#scoreModal').classList.remove('open');await syncData();toast('Starting score updated');}catch(err){toast(err.message||'Could not update score');}};
+$('#scoreModal').onclick=e=>{if(e.target===$('#scoreModal'))$('#scoreModal').classList.remove('open');};
+
+function renderAccountChoices(){
+  const box=$('#accountChoices');box.innerHTML='';const meta=registry[activeAccount];if(!meta)return;
+  const b=document.createElement('div');b.className='accountchoice active';b.style.flexDirection='column';b.style.alignItems='stretch';
+  b.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;"><span>${meta.name}</span><b>${isAdmin()?'Admin':'Your account'}</b></div><div class="editname-group"><input type="text" id="editDisplayName" class="editname-input" value="${meta.name}" placeholder="New Display Name" maxlength="24"><button id="saveDisplayName" class="editname-btn">SAVE</button></div><button id="clearHistoryBtn" class="clearhistory-btn">CLEAR ALL MY RECORDS</button>`;
+  box.appendChild(b);
+  setTimeout(()=>{
+    const saveBtn=$('#saveDisplayName');
+    if(saveBtn)saveBtn.onclick=async()=>{
+      const newName=$('#editDisplayName').value.trim();
+      if(!newName){toast('Name cannot be empty');return;}
+      try{await rpc('app_update_my_name',{p_token:sessionToken,p_name:newName});await syncData();renderAccountChoices();toast('Name updated');}
+      catch(err){toast(err.message||'Could not update name');}
+    };
+    const clearBtn=$('#clearHistoryBtn');
+    if(clearBtn)clearBtn.onclick=async()=>{
+      if(!confirm('Delete ALL your records? This cannot be undone.'))return;
+      try{await rpc('app_clear_records_for_user',{p_token:sessionToken,p_user_id:activeAccount});await syncData();renderAccountChoices();toast('All records deleted');}
+      catch(err){toast(err.message||'Could not clear history');}
+    };
+  },0);
+  if(isAdmin()){
+    const ownPassword=document.createElement('button');ownPassword.className='accountchoice';
+    ownPassword.innerHTML='<span>CHANGE MY PASSWORD</span><b>Security</b>';
+    ownPassword.onclick=async()=>{
+      const password=prompt('New password for your account:');
+      if(password===null)return;
+      if(!password.trim()){toast('Password cannot be empty');return;}
+      try{
+        await rpc('app_set_user_password',{p_token:sessionToken,p_user_id:activeAccount,p_password:password});
+        toast('Password updated. Please log in again.');
+        setTimeout(()=>doLogout(),700);
+      }catch(err){toast(err.message||'Could not update password');}
+    };
+    box.appendChild(ownPassword);
+
+    const manage=document.createElement('button');manage.className='accountchoice';manage.innerHTML='<span>MANAGE ACCOUNTS</span><b>Admin</b>';
+    manage.onclick=()=>{
+      manage.remove();
+      Object.entries(registry).sort((a,b)=>a[1].name.localeCompare(b[1].name)).forEach(([id,user])=>{
+        if(id===activeAccount)return;
+        const row=document.createElement('div');row.className='accountchoice';row.style.flexDirection='column';row.style.alignItems='stretch';
+        row.innerHTML=`<div style="display:flex;justify-content:space-between;gap:12px"><span>${user.name}</span><b>${user.role==='admin'?'Admin':'User'}</b></div>
+          <div class="adminAccountLabel">@${user.username}</div>
+          <div class="adminAccountActions">
+            <button class="adminrole" data-action="role">${user.role==='admin'?'REMOVE ADMIN':'MAKE ADMIN'}</button>
+            <button data-action="password">SET PASSWORD</button>
+            <button class="danger" data-action="clear">CLEAR RECORDS</button>
+            <button class="danger" data-action="delete">DELETE ACCOUNT</button>
+          </div>`;
+        row.querySelector('[data-action="role"]').onclick=()=>changeUserRole(id,user);
+        row.querySelector('[data-action="password"]').onclick=()=>changeUserPassword(id,user);
+        row.querySelector('[data-action="clear"]').onclick=()=>clearOtherHistory(id,user);
+        row.querySelector('[data-action="delete"]').onclick=()=>deleteAccount(id);
+        box.appendChild(row);
+      });
+    };
+    box.appendChild(manage);
+  }
+}
+async function changeUserRole(id,user){
+  const newRole=user.role==='admin'?'user':'admin';
+  if(!confirm(`${newRole==='admin'?'Make':'Remove'} admin: ${user.name}?`))return;
+  try{await rpc('app_set_user_role',{p_token:sessionToken,p_user_id:id,p_role:newRole});await syncData();renderAccountChoices();toast(newRole==='admin'?'Admin added':'Admin removed');}
+  catch(err){toast(err.message||'Could not change admin role');}
+}
+async function changeUserPassword(id,user){
+  const password=prompt(`New password for ${user.name}:`);
+  if(password===null)return;
+  if(!password.trim()){toast('Password cannot be empty');return;}
+  try{await rpc('app_set_user_password',{p_token:sessionToken,p_user_id:id,p_password:password});toast('Password updated');}
+  catch(err){toast(err.message||'Could not update password');}
+}
+async function clearOtherHistory(id,user){
+  if(!confirm(`Delete ALL records for ${user.name}? This cannot be undone.`))return;
+  try{await rpc('app_clear_records_for_user',{p_token:sessionToken,p_user_id:id});await syncData();renderAccountChoices();toast(`${user.name}'s records deleted`);}
+  catch(err){toast(err.message||'Could not clear records');}
+}
+async function deleteAccount(id){
+  if(!isAdmin())return;
+  const name=registry[id]?.name||'this account';
+  if(!confirm(`Delete account ${name}? All records will be removed.`))return;
+  try{await rpc('app_delete_user',{p_token:sessionToken,p_user_id:id});await syncData();renderAccountChoices();toast(`${name} deleted`);}
+  catch(err){toast(err.message||'Could not delete account');}
+}
+$('#accountBtn').onclick=()=>{renderAccountChoices();$('#accountModal').classList.add('open');};
+$('#closeAccounts').onclick=()=>$('#accountModal').classList.remove('open');
+$('#homeLogoutBtn').onclick=async()=>{if(!confirm('Log out of this account?'))return;try{if(sessionToken)await rpc('app_logout',{p_token:sessionToken});}catch{}sessionStorage.removeItem(SESSION_KEY);sessionToken=null;activeAccount=null;location.reload();};
+$('#addAccountBtn').onclick=()=>{if(!isAdmin())return;$('#newAccountName').value='';$('#newAccountUser').value='';$('#newAccountPass').value='';$('#newAccountModal').classList.add('open');setTimeout(()=>$('#newAccountName').focus(),100);};
+$('#createAccountBtn').onclick=async()=>{
+  if(!isAdmin())return;const name=$('#newAccountName').value.trim(),username=$('#newAccountUser').value.trim(),password=$('#newAccountPass').value;
+  if(!name||!username||!password){toast('Fill in all fields');return;}
+  try{await rpc('app_create_user',{p_token:sessionToken,p_name:name,p_username:username,p_password:password});$('#newAccountModal').classList.remove('open');await syncData();toast(`${name} added`);}catch(err){toast(err.message||'Could not add account');}
+};
+
+function openAccountViewer(id){
+  const meta=registry[id];if(!meta)return;const season=parseDate(seasonStart);
+  const seasonRecords=normalizeRecords(userRecords(id)).filter(r=>parseDate(r.date)>=season&&parseDate(r.date)<=today);
+  const dry=seasonRecords.filter(r=>r.type==='dry').length,drink=seasonRecords.filter(r=>r.type==='drink').length,total=dry+drink,bal=total?Math.round(dry/total*100):0;
+  const start=Number(meta.startingScore)||0;
+  $('#viewerName').textContent=meta.name;$('#viewerDry').textContent=dry;$('#viewerDrink').textContent=drink;$('#viewerBalance').textContent=bal;$('#viewerScore').textContent=start+dry-drink;
+  $('#viewerRing').style.background=total?`conic-gradient(var(--orange) 0 ${100-bal}%,var(--blue) ${100-bal}% 100%)`:'conic-gradient(#2a2d31 0 100%)';
+  const list=$('#viewerHistory');list.innerHTML='';const sevenDaysAgo=new Date(today);sevenDaysAgo.setDate(sevenDaysAgo.getDate()-6);
+  const recentRecords=seasonRecords.filter(r=>parseDate(r.date)>=sevenDaysAgo).sort((a,b)=>b.date.localeCompare(a.date));
+  if(!recentRecords.length)list.innerHTML='<div class="rankingempty">No records in the last 7 days</div>';
+  recentRecords.forEach(r=>{const row=document.createElement('div');row.className='viewerRow';row.innerHTML=`<span>${displayDate(r.date)}</span><b class="viewerType ${r.type}">${r.type==='dry'?'DRY DAY':'DRINK DAY'}</b>`;list.appendChild(row);});
+  $('#viewerModal').classList.add('open');
+}
+$('#viewerClose').onclick=()=>$('#viewerModal').classList.remove('open');
+$('#viewerModal').onclick=e=>{if(e.target===$('#viewerModal'))$('#viewerModal').classList.remove('open');};
+
+async function login(){
+  const u=$('#loginUser').value.trim(),p=$('#loginPass').value;
+  if(!u||!p){$('#loginError').textContent='Enter username and password';return;}
+  $('#loginError').textContent='';$('#loginBtn').disabled=true;$('#loginBtn').textContent='LOGGING IN…';
+  try{
+    const result=await rpc('app_login',{p_username:u,p_password:p});
+    sessionToken=result.token;sessionStorage.setItem(SESSION_KEY,sessionToken);activeAccount=result.user.id;
+    await syncData();
+    if(!registry[activeAccount])throw new Error('Could not load account');
+    document.querySelector('main').classList.remove('hiddenApp');$('#loginScreen').style.display='none';render();toast(`Welcome, ${accountLabel()}`);
+  }catch(err){$('#loginError').textContent=err.message||'Wrong username or password';sessionStorage.removeItem(SESSION_KEY);sessionToken=null;activeAccount=null;}
+  finally{$('#loginBtn').disabled=false;$('#loginBtn').textContent='LOGIN';}
+}
+$('#loginBtn').onclick=login;
+$('#loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')login();});
+
+function clock(){const n=new Date(),t=n.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});$('#clock').textContent=t;$('#weekday').textContent=n.toLocaleDateString('en-US',{weekday:'long'});$('#fullDate').textContent=n.toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'}).replaceAll('/',' ');}
+clock();setInterval(clock,1000);
+
+async function init(){
+  document.querySelector('main').classList.add('hiddenApp');
+  if(!sessionToken){$('#loginScreen').style.display='flex';return;}
+  try{
+    const data=await rpc('app_get_data',{p_token:sessionToken});
+    activeAccount=data.currentUserId;applyData(data);
+    document.querySelector('main').classList.remove('hiddenApp');$('#loginScreen').style.display='none';render();
+  }catch(err){sessionStorage.removeItem(SESSION_KEY);sessionToken=null;activeAccount=null;$('#loginScreen').style.display='flex';}
+}
+init();
+setInterval(()=>{if(sessionToken&&document.visibilityState==='visible')syncData({quiet:true});},5000);
+window.addEventListener('focus',()=>{if(sessionToken)syncData({quiet:true});});
+
+</script>
+</body></html>
