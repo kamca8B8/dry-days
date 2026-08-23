@@ -343,7 +343,7 @@ $('#scoreModal').onclick=e=>{if(e.target===$('#scoreModal'))$('#scoreModal').cla
 function renderAccountChoices(){
   const box=$('#accountChoices');box.innerHTML='';const meta=registry[activeAccount];if(!meta)return;
   const b=document.createElement('div');b.className='accountchoice active';b.style.flexDirection='column';b.style.alignItems='stretch';
-  b.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;"><span>${meta.name}</span><b>${isAdmin()?'Admin':'Your account'}</b></div><div class="editname-group"><input type="text" id="editDisplayName" class="editname-input" value="${meta.name}" placeholder="New Display Name" maxlength="24"><button id="saveDisplayName" class="editname-btn">SAVE</button></div><button id="clearHistoryBtn" class="clearhistory-btn">CLEAR ALL MY RECORDS</button>`;
+  b.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;"><span>${meta.name}</span><b>${isAdmin()?'Admin':'Your account'}</b></div><div class="editname-group"><input type="text" id="editDisplayName" class="editname-input" value="${meta.name}" placeholder="New Display Name" maxlength="24"><button id="saveDisplayName" class="editname-btn">SAVE</button></div>${isAdmin()?'<button id="clearHistoryBtn" class="clearhistory-btn">CLEAR ALL MY RECORDS</button>':''}`;
   box.appendChild(b);
   setTimeout(()=>{
     const saveBtn=$('#saveDisplayName');
@@ -355,6 +355,7 @@ function renderAccountChoices(){
     };
     const clearBtn=$('#clearHistoryBtn');
     if(clearBtn)clearBtn.onclick=async()=>{
+      if(!isAdmin()){toast('Admin access required');return;}
       if(!confirm('Delete ALL your records? This cannot be undone.'))return;
       try{await rpc('app_clear_records_for_user',{p_token:sessionToken,p_user_id:activeAccount});await syncData();renderAccountChoices();toast('All records deleted');}
       catch(err){toast(err.message||'Could not clear history');}
