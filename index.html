@@ -361,21 +361,24 @@ function renderAccountChoices(){
       catch(err){toast(err.message||'Could not clear history');}
     };
   },0);
-  if(isAdmin()){
-    const ownPassword=document.createElement('button');ownPassword.className='accountchoice';
-    ownPassword.innerHTML='<span>CHANGE MY PASSWORD</span><b>Security</b>';
-    ownPassword.onclick=async()=>{
-      const password=prompt('New password for your account:');
-      if(password===null)return;
-      if(!password.trim()){toast('Password cannot be empty');return;}
-      try{
-        await rpc('app_set_user_password',{p_token:sessionToken,p_user_id:activeAccount,p_password:password});
-        toast('Password updated. Please log in again.');
-        setTimeout(()=>doLogout(),700);
-      }catch(err){toast(err.message||'Could not update password');}
-    };
-    box.appendChild(ownPassword);
+  const ownPassword=document.createElement('button');ownPassword.className='accountchoice';
+  ownPassword.innerHTML='<span>CHANGE MY PASSWORD</span><b>Security</b>';
+  ownPassword.onclick=async()=>{
+    const password=prompt('New password for your account:');
+    if(password===null)return;
+    if(!password.trim()){toast('Password cannot be empty');return;}
+    const passwordConfirm=prompt('Confirm new password:');
+    if(passwordConfirm===null)return;
+    if(password!==passwordConfirm){toast('Passwords do not match');return;}
+    try{
+      await rpc('app_set_user_password',{p_token:sessionToken,p_user_id:activeAccount,p_password:password});
+      toast('Password updated. Please log in again.');
+      setTimeout(()=>doLogout(),700);
+    }catch(err){toast(err.message||'Could not update password');}
+  };
+  box.appendChild(ownPassword);
 
+  if(isAdmin()){
     const manage=document.createElement('button');manage.className='accountchoice';manage.innerHTML='<span>MANAGE ACCOUNTS</span><b>Admin</b>';
     manage.onclick=()=>{
       manage.remove();
@@ -410,6 +413,9 @@ async function changeUserPassword(id,user){
   const password=prompt(`New password for ${user.name}:`);
   if(password===null)return;
   if(!password.trim()){toast('Password cannot be empty');return;}
+  const passwordConfirm=prompt(`Confirm new password for ${user.name}:`);
+  if(passwordConfirm===null)return;
+  if(password!==passwordConfirm){toast('Passwords do not match');return;}
   try{await rpc('app_set_user_password',{p_token:sessionToken,p_user_id:id,p_password:password});toast('Password updated');}
   catch(err){toast(err.message||'Could not update password');}
 }
