@@ -23,7 +23,7 @@
 .summary{margin-top:22px;padding:18px 8px 16px}.summarytitle{padding:0 10px 14px;font-size:15px}.summarygrid{display:grid;grid-template-columns:repeat(4,1fr)}.summaryitem{text-align:center;padding:4px 8px;border-right:1px solid #34373b}.summaryitem:last-child{border:0}.summaryicon{height:45px;display:grid;place-items:center}.summaryicon svg{width:34px;height:34px}.summaryvalue{font-size:31px;font-weight:500}.summarylabel{font-size:10px;color:#e0e1e4;line-height:1.4;margin-top:7px}.summarysub{font-size:10px;color:#a2a4a8;margin-top:7px}
 .addbox{margin-top:22px;padding:20px}.addtitle{font-size:16px;font-weight:800;letter-spacing:1px;margin-bottom:15px}.datebutton{width:100%;background:#101112;color:#eee;border:1px solid var(--line);border-radius:12px;padding:13px;margin-bottom:10px;font-size:14px;text-align:left}.addmodes{display:grid;grid-template-columns:1fr 1fr;gap:10px}.modebtn{border:1px solid #333;background:#0c0d0e;color:#ddd;border-radius:15px;padding:16px 8px;font-weight:800;font-size:13px}.modebtn.dry.active{border-color:var(--blue)}.modebtn.drink.active{border-color:var(--orange)}.save{width:100%;margin-top:13px;border:0;border-radius:14px;padding:16px;background:var(--orange);color:#111;font-weight:900;font-size:14px}
 .season{margin-top:22px;padding:18px}.seasonrow{display:flex;justify-content:space-between;align-items:center;gap:12px}.seasonlabel{font-size:10px;color:var(--muted);letter-spacing:1px}.seasonvalue{font-size:14px;margin-top:4px}.change{border:1px solid var(--line);background:#111;color:#ddd;border-radius:10px;padding:9px 11px}
-.ranking{margin-top:22px;padding:18px}.rankrow{display:grid;grid-template-columns:35px 1fr auto;align-items:center;padding:12px 0;border-bottom:1px solid #242629;font-size:13px}.rankrow:last-child{border:0}.rankrow.me{background:#111315;border-radius:12px;padding-left:8px;padding-right:8px;margin:2px 0}.pos{color:#8f9296}.rankscore{color:var(--orange);font-weight:800}.note{text-align:center;color:#74777c;font-size:10px;margin-top:24px}
+.ranking{margin-top:22px;padding:18px}.rankrow{display:grid;grid-template-columns:35px 1fr auto;align-items:center;padding:12px 0;border-bottom:1px solid #242629;font-size:13px}.rankrow:last-child{border:0}.rankrow.me{background:#111315;border-radius:12px;padding-left:8px;padding-right:8px;margin:2px 0}.pos{color:#8f9296}.rankname{min-width:0;display:flex;align-items:baseline;gap:9px;white-space:nowrap;overflow:hidden}.rankname b{overflow:hidden;text-overflow:ellipsis}.missingdays{color:var(--orange);font-size:10px;font-weight:600;letter-spacing:.6px;flex:0 0 auto}.rankscore{color:#fff;font-weight:800}.note{text-align:center;color:#74777c;font-size:10px;margin-top:24px}
 .toast{position:fixed;z-index:30;left:50%;bottom:25px;transform:translate(-50%,90px);background:#f3f3f3;color:#111;padding:12px 18px;border-radius:999px;font-size:13px;font-weight:700;transition:.25s}.toast.show{transform:translate(-50%,0)}
 .modal{position:fixed;inset:0;background:#000b;display:none;align-items:flex-end;z-index:20}.modal.open{display:flex}.calendar{width:100%;max-width:480px;margin:auto;background:#101113;border:1px solid #2b2e31;border-radius:25px 25px 0 0;padding:18px 16px 28px}.calhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}.calhead button{background:#181a1c;color:#eee;border:0;border-radius:10px;width:38px;height:38px;font-size:20px}.monthname{font-weight:800}.weeknames,.calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}.weeknames{font-size:10px;color:#777;margin-bottom:6px}.calday{aspect-ratio:1;border:0;background:transparent;color:#ddd;border-radius:50%;font-size:13px}.calday.selected{background:var(--orange);color:#111;font-weight:800}.calday.empty{visibility:hidden}.calday.disabled{color:#555}.calendar .helper{font-size:11px;color:#777;text-align:center;margin:10px 0 0}
 .accountbar{margin:0 0 8px;display:flex;gap:8px;align-items:stretch}.accountbar .accountBtn{flex:1}.accountBtn{width:100%;display:flex;align-items:center;gap:10px;padding:10px 14px;background:#0b0c0d;border:1px solid var(--line);border-radius:14px;color:var(--text);text-align:left}.accountBtn span{font-size:10px;color:var(--muted);letter-spacing:1px}.accountBtn strong{font-size:13px;margin-left:auto}.accountBtn em{font-style:normal;color:var(--purple)}
@@ -192,6 +192,25 @@ function chooseChartDate(dt){
 }
 
 function userRecords(id){return allRecords.filter(r=>(r.userId||r.user_id)===id);}
+function missingDaysForAccount(id){
+  // Check only the current season and never count today, because the day is not finished yet.
+  const season=parseDate(seasonStart);
+  const yesterday=new Date(today);
+  yesterday.setDate(yesterday.getDate()-1);
+  if(season>yesterday)return 0;
+
+  const recordDates=new Set(
+    userRecords(id)
+      .filter(r=>parseDate(r.date)>=season&&parseDate(r.date)<=yesterday)
+      .map(r=>r.date)
+  );
+
+  let missing=0;
+  for(let d=new Date(season);d<=yesterday;d.setDate(d.getDate()+1)){
+    if(!recordDates.has(key(d)))missing++;
+  }
+  return missing;
+}
 function scoreForAccount(id){
   const total=userRecords(id).filter(r=>parseDate(r.date)>=parseDate(seasonStart)&&parseDate(r.date)<=today).reduce((sum,r)=>sum+(r.type==='dry'?1:-1),0);
   return (Number(registry[id]?.startingScore)||0)+total;
@@ -225,9 +244,18 @@ function render(){
     deleteRecordBtn.style.display=userRecords(targetId).some(r=>r.date===key(selectedDate))?'block':'none';
   }
 
-  const board=Object.entries(registry).map(([id,meta])=>({id,name:meta.name,score:scoreForAccount(id)})).sort((a,b)=>b.score-a.score||a.name.localeCompare(b.name));
+  const board=Object.entries(registry).map(([id,meta])=>({id,name:meta.name,score:scoreForAccount(id),missingDays:missingDaysForAccount(id)})).sort((a,b)=>b.score-a.score||a.name.localeCompare(b.name));
   const rankRows=$('#rankingRows');rankRows.innerHTML='';
-  board.forEach((player,index)=>{const row=document.createElement('div');row.className='rankrow'+(player.id===activeAccount?' me':'');row.innerHTML=`<span class="pos">${index+1}</span><b>${player.name}${player.id===activeAccount?' (You)':''}</b><span class="rankscore">${player.score}</span>`;if(player.id!==activeAccount)row.onclick=()=>openAccountViewer(player.id);rankRows.appendChild(row);});
+  board.forEach((player,index)=>{
+    const row=document.createElement('div');
+    row.className='rankrow'+(player.id===activeAccount?' me':'');
+    const missingLabel=player.missingDays
+      ?`<span class="missingdays">MISSING ${player.missingDays} ${player.missingDays===1?'DAY':'DAYS'}</span>`
+      :'';
+    row.innerHTML=`<span class="pos">${index+1}</span><span class="rankname"><b>${player.name}${player.id===activeAccount?' (You)':''}</b>${missingLabel}</span><span class="rankscore">${player.score}</span>`;
+    if(player.id!==activeAccount)row.onclick=()=>openAccountViewer(player.id);
+    rankRows.appendChild(row);
+  });
   const yourRank=Math.max(1,board.findIndex(player=>player.id===activeAccount)+1);
   const summaryRank=document.querySelector('.summaryitem:nth-child(3) .summaryvalue'),summaryRankSub=document.querySelector('.summaryitem:nth-child(3) .summarysub');
   if(summaryRank){summaryRank.textContent='#'+yourRank;summaryRankSub.textContent='Live ranking';}
