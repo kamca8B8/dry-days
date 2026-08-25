@@ -182,6 +182,15 @@ function streaks(){
   return result;
 }
 
+function chooseChartDate(dt){
+  const chosen = new Date(dt);
+  selectedDate = chosen;
+  selectedHistoryKey = key(chosen);
+  const recordDateBtn = $('#recordDateBtn');
+  if(recordDateBtn) recordDateBtn.textContent = displayDate(key(chosen));
+  render();
+}
+
 function userRecords(id){return allRecords.filter(r=>(r.userId||r.user_id)===id);}
 function scoreForAccount(id){
   const total=userRecords(id).filter(r=>parseDate(r.date)>=parseDate(seasonStart)&&parseDate(r.date)<=today).reduce((sum,r)=>sum+(r.type==='dry'?1:-1),0);
@@ -228,13 +237,7 @@ function render(){
   for(let d=new Date(historyStart);d<=today;d.setDate(d.getDate()+1))days.push(new Date(d));
   const grid=$('#weekChart');grid.innerHTML='';const viewportWidth=$('#weekViewport').clientWidth;grid.style.setProperty('--day-width',`${Math.max(1,viewportWidth/7)}px`);
   $('#weekHint').textContent=days.length>7?'Drag right for history':(days.length?'':'No history yet');
-  function selectHistoryDate(dt){
-    selectedDate=new Date(dt);
-    selectedHistoryKey=key(dt);
-    $('#recordDateBtn').textContent=displayDate(key(selectedDate));
-    render();
-  }
-  days.forEach(dt=>{const rec=records.find(r=>r.date===key(dt));const type=rec?.type||null;const el=document.createElement('div');el.className='day'+(!rec?' emptyday':'')+(selectedHistoryKey===key(dt)?' selectedDay':'');const icon=type==='dry'?dropSVG:type==='drink'?beerSVG:'';el.innerHTML=`<div class="dow">${weekdays[dt.getDay()]}</div><div class="icon ${type==='dry'?'blue':type==='drink'?'orange':'muted'}">${icon}</div><div class="barwrap"><div class="bar ${type==='drink'?'drink':''} ${!type?'none':''}"></div></div><div class="date">${fmtShort(dt)}</div>`;el.onclick=()=>selectHistoryDate(dt);grid.appendChild(el);});
+  days.forEach(dt=>{const rec=records.find(r=>r.date===key(dt));const type=rec?.type||null;const el=document.createElement('div');el.className='day'+(!rec?' emptyday':'')+(selectedHistoryKey===key(dt)?' selectedDay':'');const icon=type==='dry'?dropSVG:type==='drink'?beerSVG:'';el.dataset.date=key(dt);el.innerHTML=`<div class="dow">${weekdays[dt.getDay()]}</div><div class="icon ${type==='dry'?'blue':type==='drink'?'orange':'muted'}">${icon}</div><div class="barwrap"><div class="bar ${type==='drink'?'drink':''} ${!type?'none':''}"></div></div><div class="date">${fmtShort(dt)}</div>`;el.onclick=()=>chooseChartDate(dt);grid.appendChild(el);});
   // Keep the week/history position where the user swiped it.
   // Only move to the current week on the first history render.
   requestAnimationFrame(()=>{
@@ -368,35 +371,37 @@ viewport.addEventListener('touchmove',e=>{moveHistoryDrag(e.touches[0].clientX);
 viewport.addEventListener('touchend',endHistoryDrag,{passive:true});
 viewport.addEventListener('touchcancel',endHistoryDrag,{passive:true});
 
+let desktopClickedDay=null;
+
 viewport.addEventListener('pointerdown',e=>{
   if(e.pointerType==='touch')return;
   desktopDragMoved=false;
   desktopPointerDownX=e.clientX;
+  // Remember the actual chart column at pointer-down.
+  desktopClickedDay=(e.target instanceof Element)?e.target.closest('.day'):null;
   startHistoryDrag(e.clientX);
   viewport.setPointerCapture?.(e.pointerId);
 });
 viewport.addEventListener('pointermove',e=>{
   if(e.pointerType==='touch')return;
-  if(Math.abs(e.clientX-desktopPointerDownX)>6)desktopDragMoved=true;
+  if(Math.abs(e.clientX-desktopPointerDownX)>6){
+    desktopDragMoved=true;
+    desktopClickedDay=null;
+  }
   moveHistoryDrag(e.clientX);
 });
 viewport.addEventListener('pointerup',e=>{
   if(e.pointerType==='touch')return;
-  const clickedDay=!desktopDragMoved ? e.target.closest('.day') : null;
+  const clickedDay=!desktopDragMoved ? desktopClickedDay : null;
   endHistoryDrag();
-  if(clickedDay){
-    const days=[...$('#weekChart').children];
-    const index=days.indexOf(clickedDay);
-    const historyStart=records.length?parseDate(records.reduce((min,r)=>r.date<min?r.date:min,records[0].date)):parseDate(seasonStart);
-    if(index>=0){
-      const dt=new Date(historyStart);
-      dt.setDate(dt.getDate()+index);
-      selectHistoryDate(dt);
-    }
+  desktopClickedDay=null;
+  if(clickedDay?.dataset?.date){
+    chooseChartDate(parseDate(clickedDay.dataset.date));
   }
 });
 viewport.addEventListener('pointercancel',e=>{
   if(e.pointerType==='touch')return;
+  desktopClickedDay=null;
   endHistoryDrag();
 });
 
@@ -435,9 +440,14 @@ function renderAccountChoices(){
     if(passwordConfirm===null)return;
     if(password!==passwordConfirm){toast('Passwords do not match');return;}
     try{
-      await rpc('app_set_user_password',{p_token:sessionToken,p_user_id:activeAccount,p_password:password});
+      await rpc('app_change_my_password',{p_token:sessionToken,p_password:password});
       toast('Password updated. Please log in again.');
-      setTimeout(()=>doLogout(),700);
+      setTimeout(()=>{
+        sessionStorage.removeItem(SESSION_KEY);
+        sessionToken=null;
+        activeAccount=null;
+        location.reload();
+      },700);
     }catch(err){toast(err.message||'Could not update password');}
   };
   box.appendChild(ownPassword);
