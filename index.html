@@ -332,9 +332,52 @@ function bounds(){const vw=viewport.clientWidth,tw=$('#weekChart').scrollWidth;r
 function applyTranslate(x){const b=bounds();translateX=Math.max(b.min,Math.min(b.max,x));track.style.transform=`translate3d(${translateX}px,0,0)`;}
 function positionHistoryToCurrent(){const b=bounds();if(!dragStartX)applyTranslate(b.min);}
 function finishInertia(){if(Math.abs(velocity)<.03)return;const step=()=>{velocity*=.93;applyTranslate(translateX+velocity*16);if(Math.abs(velocity)>=.03)raf=requestAnimationFrame(step);};raf=requestAnimationFrame(step);}
-viewport.addEventListener('touchstart',e=>{if(raf)cancelAnimationFrame(raf);dragStartX=dragLastX=e.touches[0].clientX;baseTranslate=translateX;velocity=0;lastMoveTime=performance.now();$('#weekChart').classList.add('dragging');},{passive:true});
-viewport.addEventListener('touchmove',e=>{if(dragStartX===null)return;const x=e.touches[0].clientX,now=performance.now(),dx=x-dragLastX,dt=Math.max(1,now-lastMoveTime);velocity=dx/dt;dragLastX=x;lastMoveTime=now;applyTranslate(baseTranslate+(x-dragStartX));},{passive:true});
-viewport.addEventListener('touchend',()=>{if(dragStartX===null)return;dragStartX=dragLastX=null;$('#weekChart').classList.remove('dragging');finishInertia();},{passive:true});
+function startHistoryDrag(x){
+  if(raf)cancelAnimationFrame(raf);
+  dragStartX=dragLastX=x;
+  baseTranslate=translateX;
+  velocity=0;
+  lastMoveTime=performance.now();
+  $('#weekChart').classList.add('dragging');
+}
+function moveHistoryDrag(x){
+  if(dragStartX===null)return;
+  const now=performance.now(),dx=x-dragLastX,dt=Math.max(1,now-lastMoveTime);
+  velocity=dx/dt;
+  dragLastX=x;
+  lastMoveTime=now;
+  applyTranslate(baseTranslate+(x-dragStartX));
+}
+function endHistoryDrag(){
+  if(dragStartX===null)return;
+  dragStartX=dragLastX=null;
+  $('#weekChart').classList.remove('dragging');
+  finishInertia();
+}
+
+viewport.addEventListener('touchstart',e=>{startHistoryDrag(e.touches[0].clientX);},{passive:true});
+viewport.addEventListener('touchmove',e=>{moveHistoryDrag(e.touches[0].clientX);},{passive:true});
+viewport.addEventListener('touchend',endHistoryDrag,{passive:true});
+viewport.addEventListener('touchcancel',endHistoryDrag,{passive:true});
+
+viewport.addEventListener('pointerdown',e=>{
+  if(e.pointerType==='touch')return;
+  e.preventDefault();
+  startHistoryDrag(e.clientX);
+  viewport.setPointerCapture?.(e.pointerId);
+});
+viewport.addEventListener('pointermove',e=>{
+  if(e.pointerType==='touch')return;
+  moveHistoryDrag(e.clientX);
+});
+viewport.addEventListener('pointerup',e=>{
+  if(e.pointerType==='touch')return;
+  endHistoryDrag();
+});
+viewport.addEventListener('pointercancel',e=>{
+  if(e.pointerType==='touch')return;
+  endHistoryDrag();
+});
 
 $('#startingScoreBtn').onclick=()=>{$('#startingScoreInput').value=startingScore;$('#scoreModal').classList.add('open');};
 $('#saveStartingScore').onclick=async()=>{const value=Number($('#startingScoreInput').value)||0;try{await rpc('app_update_starting_score',{p_token:sessionToken,p_starting_score:value});$('#scoreModal').classList.remove('open');await syncData();toast('Starting score updated');}catch(err){toast(err.message||'Could not update score');}};
