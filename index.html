@@ -73,6 +73,11 @@
 
 
 .userPickerChoice{width:100%;display:flex;justify-content:space-between;align-items:center;padding:16px 14px;margin:8px 0;background:#0b0c0d;color:var(--text);border:1px solid var(--line);border-radius:14px;text-align:left;font-weight:700}.userPickerChoice.active{border-color:var(--orange);box-shadow:0 0 0 1px #ff7a0033}.userPickerChoice small{color:var(--muted);font-weight:500}
+
+/* Starting Score: visible to everyone, editable only by admin. */
+#startingScoreBtn:disabled{opacity:1;cursor:default;}
+#startingScoreBtn:disabled em{display:none;}
+#startingScoreBtn:disabled{pointer-events:none;}
 </style>
 </head>
 <body>
@@ -115,6 +120,7 @@ let allRecords=[];
 let seasonStart=key(today), seasonId=1;
 let account={startingScore:0,records:[]};
 let startingScore=0;
+let startingScoreTargetId=null;
 let records=[];
 let selectedDate=new Date(today);
 let calendarMode='record', viewDate=new Date(selectedDate.getFullYear(),selectedDate.getMonth(),1);
@@ -220,6 +226,12 @@ function applyRoleUI(){
   document.body.classList.toggle('admin',isAdmin());
   document.body.classList.toggle('loggedIn',!!activeAccount);
   populateRecordOwnerSelect();
+  const scoreBtn=$('#startingScoreBtn');
+  if(scoreBtn){
+    scoreBtn.disabled=!isAdmin();
+    scoreBtn.setAttribute('aria-disabled',String(!isAdmin()));
+    scoreBtn.title=isAdmin()?'Change Starting Score':'Starting Score can only be changed by an admin';
+  }
 }
 
 async function rpc(name,body={}){
@@ -527,9 +539,27 @@ viewport.addEventListener('pointercancel',e=>{
   endHistoryDrag();
 });
 
-$('#startingScoreBtn').onclick=()=>{$('#startingScoreInput').value=startingScore;$('#scoreModal').classList.add('open');};
-$('#saveStartingScore').onclick=async()=>{const value=Number($('#startingScoreInput').value)||0;try{await rpc('app_update_starting_score',{p_token:sessionToken,p_starting_score:value});$('#scoreModal').classList.remove('open');await syncData();toast('Starting score updated');}catch(err){toast(err.message||'Could not update score');}};
-$('#scoreModal').onclick=e=>{if(e.target===$('#scoreModal'))$('#scoreModal').classList.remove('open');};
+$('#startingScoreBtn').onclick=()=>{
+  if(!isAdmin())return;
+  startingScoreTargetId=activeAccount;
+  $('#scoreModal').querySelector('h2').textContent='STARTING SCORE';
+  $('#startingScoreInput').value=Number(registry[activeAccount]?.startingScore)||0;
+  $('#scoreModal').classList.add('open');
+};
+$('#saveStartingScore').onclick=async()=>{
+  if(!isAdmin()){toast('Admin access required');return;}
+  const targetId=startingScoreTargetId||activeAccount;
+  const value=Number($('#startingScoreInput').value)||0;
+  const targetName=registry[targetId]?.name||'user';
+  try{
+    await rpc('app_update_starting_score',{p_token:sessionToken,p_user_id:targetId,p_starting_score:value});
+    $('#scoreModal').classList.remove('open');
+    startingScoreTargetId=null;
+    await syncData();
+    toast(`Starting score updated for ${targetName}`);
+  }catch(err){toast(err.message||'Could not update score');}
+};
+$('#scoreModal').onclick=e=>{if(e.target===$('#scoreModal')){startingScoreTargetId=null;$('#scoreModal').classList.remove('open');}};
 
 let passwordChangeTarget=null;
 function openPasswordModal(target=null){
@@ -595,6 +625,16 @@ function renderAdminAccountActions(id,user){clearMassActionBar();
  const head=document.createElement('div');head.className='accountchoice active';head.innerHTML=`<span>${user.name}<small style="display:block;color:#8d9198;margin-top:4px">@${user.username}</small></span><b>${user.role==='admin'?'Admin':'User'}</b>`;box.appendChild(head);
  const role=document.createElement('button');role.className='accountchoice';role.innerHTML=`<span>${user.role==='admin'?'REMOVE ADMIN':'MAKE ADMIN'}</span><b>›</b>`;role.onclick=()=>changeUserRole(id,user);box.appendChild(role);
  const pass=document.createElement('button');pass.className='accountchoice';pass.innerHTML='<span>SET PASSWORD</span><b>›</b>';pass.onclick=()=>changeUserPassword(id,user);box.appendChild(pass);
+ const start=document.createElement('button');
+ start.className='accountchoice';
+ start.innerHTML=`<span>STARTING SCORE</span><b>${Number(user.startingScore)||0} ›</b>`;
+ start.onclick=()=>{
+   startingScoreTargetId=id;
+   $('#scoreModal').querySelector('h2').textContent=`STARTING SCORE — ${user.name}`;
+   $('#startingScoreInput').value=Number(registry[id]?.startingScore)||0;
+   $('#scoreModal').classList.add('open');
+ };
+ box.appendChild(start);
  const mass=document.createElement('button');mass.className='accountchoice';mass.innerHTML='<span>MASS UPDATE</span><b>›</b>';mass.onclick=()=>renderMassUpdate(id,user);box.appendChild(mass);
  const del=document.createElement('button');del.className='accountchoice danger';del.innerHTML='<span>DELETE ACCOUNT</span><b>›</b>';del.onclick=()=>deleteAccount(id);box.appendChild(del);
 }
