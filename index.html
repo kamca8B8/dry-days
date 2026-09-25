@@ -25,7 +25,7 @@
 .summary{margin-top:22px;padding:18px 8px 16px}.summarytitle{padding:0 10px 14px;font-size:15px}.summarygrid{display:grid;grid-template-columns:repeat(4,1fr)}.summaryitem{text-align:center;padding:4px 8px;border-right:1px solid #34373b}.summaryitem:last-child{border:0}.summaryicon{height:45px;display:grid;place-items:center}.summaryicon svg{width:34px;height:34px}.summaryvalue{font-size:31px;font-weight:500}.summarylabel{font-size:10px;color:#e0e1e4;line-height:1.4;margin-top:7px}.summarysub{font-size:10px;color:#a2a4a8;margin-top:7px}
 .addbox{margin-top:22px;padding:20px}.addtitle{font-size:16px;font-weight:800;letter-spacing:1px;margin-bottom:15px}.datebutton{width:100%;background:#101112;color:#eee;border:1px solid var(--line);border-radius:12px;padding:13px;margin-bottom:10px;font-size:14px;text-align:left}.addmodes{display:grid;grid-template-columns:1fr 1fr;gap:10px}.modebtn{border:1px solid #333;background:#0c0d0e;color:#ddd;border-radius:15px;padding:16px 8px;font-weight:800;font-size:13px}.modebtn.dry.active{border-color:var(--blue)}.modebtn.drink.active{border-color:var(--orange)}.save{width:100%;margin-top:13px;border:0;border-radius:14px;padding:16px;background:var(--orange);color:#111;font-weight:900;font-size:14px}
 .season{margin-top:22px;padding:18px}.seasonrow{display:flex;justify-content:space-between;align-items:center;gap:12px}.seasonlabel{font-size:10px;color:var(--muted);letter-spacing:1px}.seasonvalue{font-size:14px;margin-top:4px}.change{border:1px solid var(--line);background:#111;color:#ddd;border-radius:10px;padding:9px 11px}
-.ranking{margin-top:22px;padding:18px}.rankingtable{width:100%}.rankinghead{display:none}.rankinghead .title{margin:0!important}.rankingcols{display:grid;grid-template-columns:28px minmax(0,1fr) 56px 56px 56px;align-items:start;column-gap:7px;margin-bottom:6px}.rankingheadcell{min-height:72px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:5px;text-align:center}.rankingheadcell svg{width:28px;height:28px;flex:0 0 28px}.rankingtitlecell{min-height:72px;display:flex;align-items:flex-start;justify-content:center;flex-direction:column;font-size:15px;font-weight:800;letter-spacing:1px;color:var(--text);padding-left:0}.rankingheadlabel{font-size:9px;line-height:1.05;letter-spacing:.15px;color:#aeb1b6;font-weight:500;white-space:nowrap}.rankrow{display:grid;grid-template-columns:28px minmax(0,1fr) 56px 56px 56px;align-items:center;column-gap:7px;padding:12px 0;border-bottom:1px solid #242629;font-size:13px}.rankrow:last-child{border:0}.rankrow.me{background:#111315;border-radius:12px;margin:2px 0;padding:12px 0}.pos{color:#8f9296}.rankname{min-width:0;display:flex;align-items:baseline;gap:9px;white-space:nowrap;overflow:hidden;padding-left:4px}.rankname b{overflow:hidden;text-overflow:ellipsis}.missingdays{color:var(--orange);font-size:10px;font-weight:500;letter-spacing:.2px;flex:0 0 auto}.rankmetric{text-align:center;font-weight:600}.rankdry{color:var(--blue)}.rankdrink{color:var(--orange)}.rankscore{color:#fff;font-weight:800;text-align:center}.note{text-align:center;color:#74777c;font-size:10px;margin-top:24px}@media(max-width:370px){.ranking{padding:16px 12px}.rankinghead{height:auto}.rankingcols,.rankrow{grid-template-columns:25px minmax(0,1fr) 50px 50px 50px;column-gap:5px}.rankingheadcell svg{width:25px;height:25px;flex-basis:25px}.rankingheadcell{min-height:61px}.rankingtitlecell{min-height:61px;font-size:14px}.rankingheadlabel{font-size:8px}.rankname{padding-left:3px}}
+.ranking{margin-top:22px;padding:18px}.rankrow{display:grid;grid-template-columns:35px 1fr auto;align-items:center;padding:12px 0;border-bottom:1px solid #242629;font-size:13px}.rankrow:last-child{border:0}.rankrow.me{background:#111315;border-radius:12px;padding-left:8px;padding-right:8px;margin:2px 0}.pos{color:#8f9296}.rankname{min-width:0;display:flex;align-items:baseline;gap:9px;white-space:nowrap;overflow:hidden}.rankname b{overflow:hidden;text-overflow:ellipsis}.missingdays{color:var(--orange);font-size:10px;font-weight:600;letter-spacing:.6px;flex:0 0 auto}.rankscore{color:#fff;font-weight:800}.note{text-align:center;color:#74777c;font-size:10px;margin-top:24px}
 .toast{position:fixed;z-index:30;left:50%;bottom:25px;transform:translate(-50%,90px);background:#f3f3f3;color:#111;padding:12px 18px;border-radius:999px;font-size:13px;font-weight:700;transition:.25s}.toast.show{transform:translate(-50%,0)}
 .modal{position:fixed;inset:0;background:#000b;display:none;align-items:flex-end;z-index:20}.modal.open{display:flex}.calendar{width:100%;max-width:480px;margin:auto;background:#101113;border:1px solid #2b2e31;border-radius:25px 25px 0 0;padding:18px 16px 28px}.calhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}.calhead button{background:#181a1c;color:#eee;border:0;border-radius:10px;width:38px;height:38px;font-size:20px}.monthname{font-weight:800}.weeknames,.calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}.weeknames{font-size:10px;color:#777;margin-bottom:6px}.calday{aspect-ratio:1;border:0;background:transparent;color:#ddd;border-radius:50%;font-size:13px}.calday.selected{background:var(--orange);color:#111;font-weight:800}.calday.empty{visibility:hidden}.calday.disabled{color:#555}.calendar .helper{font-size:11px;color:#777;text-align:center;margin:10px 0 0}
 .accountbar{margin:0 0 8px;display:flex;gap:8px;align-items:stretch}.accountbar .accountBtn{flex:1}.accountBtn{width:100%;display:flex;align-items:center;gap:10px;padding:10px 14px;background:#0b0c0d;border:1px solid var(--line);border-radius:14px;color:var(--text);text-align:left}.accountBtn span{font-size:10px;color:var(--muted);letter-spacing:1px}.accountBtn strong{font-size:13px;margin-left:auto}.accountBtn em{font-style:normal;color:var(--purple)}
@@ -37,7 +37,7 @@
 .weekbox{overflow:hidden}.weekviewport{overflow:hidden;touch-action:pan-y;cursor:grab}.weektrack{display:flex;width:max-content;will-change:transform}.weekgrid{display:flex!important;gap:0;width:max-content;transition:none!important}.weekgrid .day{width:calc(var(--day-width, 40px));flex:0 0 var(--day-width, 40px)}.weekgrid .dow,.weekgrid .date{white-space:nowrap}.weekgrid.dragging{transition:none!important}
 .day.selectedDay{outline:1px solid var(--orange);border-radius:12px;background:#ffffff05}
 .loginScreen{position:fixed;inset:0;z-index:100;background:#090a0b;display:flex;align-items:center;justify-content:center;padding:24px}.loginCard{width:min(390px,100%);background:#111214;border:1px solid var(--line);border-radius:24px;padding:24px}.loginCard h1{margin:0 0 6px}.loginCard p{color:#888;font-size:13px;margin:0 0 20px}.loginCard input{width:100%;box-sizing:border-box;margin:7px 0;padding:15px;border-radius:14px;border:1px solid var(--line);background:#090a0b;color:#fff;font-size:16px}.loginError{min-height:18px;color:#ff7a7a;font-size:12px;margin-top:8px}.hiddenApp{display:none!important}.adminOnly{display:none}.admin .adminOnly{display:flex}
-.viewerCard{width:min(480px,100%);max-height:88vh;overflow:auto;background:#101113;border:1px solid var(--line);border-radius:22px;padding:18px}.viewerHead{display:flex;justify-content:space-between;align-items:center;gap:12px}.viewerHead h2{margin:0;font-size:18px}.viewerClose{background:#181a1c;color:#eee;border:0;border-radius:10px;width:38px;height:38px;font-size:20px}.viewerStats{display:grid;grid-template-columns:.82fr 1.45fr .85fr;align-items:center;gap:8px;margin:18px 0}.viewerScoreBlock{text-align:left;padding-left:2px}.viewerScoreBlock .smallhead{margin-bottom:12px}.viewerScoreNumber{font-size:48px;color:var(--orange);font-weight:500}.viewerScoreSeason{font-size:11px;color:#c3c5c8;margin-top:4px}.viewerRing{width:166px;height:166px;border-radius:50%;margin:auto;padding:9px;box-shadow:0 0 14px #ff7a0040,0 0 14px #147ee840}.viewerRingInner{width:100%;height:100%;border-radius:50%;background:#070809;display:flex;flex-direction:column;align-items:center;justify-content:center}.viewerBalance{font-size:42px}.viewerBalance small{font-size:22px}.viewerSub{font-size:10px;color:#a1a4a8;letter-spacing:.7px;margin-top:4px}.viewerNum{text-align:center}.viewerNum b{display:block;font-size:34px;font-weight:500}.viewerNum span{font-size:10px;color:#c2c4c7;letter-spacing:.6px;white-space:nowrap}.viewerDivider{height:1px;background:#292c30;margin:15px 0}.viewerListTitle{font-size:12px;color:#a1a4a8;letter-spacing:1px;margin:12px 0 6px}.viewerHistoryTitle{display:flex;align-items:center;justify-content:space-between;gap:12px}.viewerWeekNav{display:flex;gap:7px}.viewerWeekNav button{width:34px;height:30px;border-radius:10px;border:1px solid #30343a;background:#111315;color:#d9dce0;font:inherit;font-size:22px;line-height:1;cursor:pointer}.viewerWeekNav button:disabled{opacity:.35;cursor:default}.viewerHistory{border-top:1px solid #242629}.viewerRow{display:grid;grid-template-columns:1fr auto;gap:10px;padding:12px 2px;border-bottom:1px solid #242629;font-size:13px}.viewerType.dry{color:var(--blue)}.viewerType.drink{color:var(--orange)}.rankrow{cursor:pointer}.rankrow:hover{background:#111315}.rankrow.me{cursor:default}@media(max-width:370px){.viewerRing{width:145px;height:145px}.viewerScoreNumber{font-size:42px}.viewerNum b{font-size:29px}}
+.viewerCard{width:min(480px,100%);max-height:88vh;overflow:auto;background:#101113;border:1px solid var(--line);border-radius:22px;padding:18px}.viewerHead{display:flex;justify-content:space-between;align-items:center;gap:12px}.viewerHead h2{margin:0;font-size:18px}.viewerClose{background:#181a1c;color:#eee;border:0;border-radius:10px;width:38px;height:38px;font-size:20px}.viewerStats{display:grid;grid-template-columns:.82fr 1.45fr .85fr;align-items:center;gap:8px;margin:18px 0}.viewerScoreBlock{text-align:left;padding-left:2px}.viewerScoreBlock .smallhead{margin-bottom:12px}.viewerScoreNumber{font-size:48px;color:var(--orange);font-weight:500}.viewerScoreSeason{font-size:11px;color:#c3c5c8;margin-top:4px}.viewerRing{width:166px;height:166px;border-radius:50%;margin:auto;padding:9px;box-shadow:0 0 14px #ff7a0040,0 0 14px #147ee840}.viewerRingInner{width:100%;height:100%;border-radius:50%;background:#070809;display:flex;flex-direction:column;align-items:center;justify-content:center}.viewerBalance{font-size:42px}.viewerBalance small{font-size:22px}.viewerSub{font-size:10px;color:#a1a4a8;letter-spacing:.7px;margin-top:4px}.viewerNum{text-align:center}.viewerNum b{display:block;font-size:34px;font-weight:500}.viewerNum span{font-size:10px;color:#c2c4c7;letter-spacing:.6px;white-space:nowrap}.viewerDivider{height:1px;background:#292c30;margin:15px 0}.viewerListTitle{font-size:12px;color:#a1a4a8;letter-spacing:1px;margin:12px 0 6px}.viewerHistoryTitle{display:flex;align-items:center;justify-content:space-between;gap:12px}.viewerWeekNav{display:flex;gap:7px}.viewerWeekNav button{width:34px;height:30px;border-radius:10px;border:1px solid #30343a;background:#111315;color:#d9dce0;font:inherit;font-size:22px;line-height:1;cursor:pointer}.viewerWeekNav button:disabled{opacity:.35;cursor:default}.viewerHistory{border-top:1px solid #242629}.viewerRow{display:grid;grid-template-columns:95px 38px minmax(0,1fr);gap:8px;align-items:center;padding:12px 2px;border-bottom:1px solid #242629;font-size:13px}.viewerRowDate{white-space:nowrap}.viewerRowDow{color:#9da0a5;font-size:12px;letter-spacing:.4px}.viewerType{text-align:right;white-space:nowrap}.viewerType.dry{color:var(--blue)}.viewerType.drink{color:var(--orange)}.rankrow{cursor:pointer}.rankrow:hover{background:#111315}.rankrow.me{cursor:default}@media(max-width:370px){.viewerRing{width:145px;height:145px}.viewerScoreNumber{font-size:42px}.viewerNum b{font-size:29px}}
 @media(max-width:370px){.app{padding-left:12px;padding-right:12px}.logo{font-size:42px}.ring{width:148px;height:148px}.score{font-size:43px}.rightstats .num{font-size:29px}}
 .weatherbox{margin:14px 0 22px;padding:16px 26px 14px;border:1px solid var(--line);border-radius:28px;background:var(--card)}.weathergrid{display:grid;grid-template-columns:repeat(3,1fr);text-align:center;min-height:106px;align-items:center}.weathergrid>div{padding:0 8px}.weathergrid>div+div{border-left:1px solid #2d3138}.weatherday{font-size:11px;letter-spacing:1.6px;color:#d7d9de;margin-bottom:16px;font-weight:800}.weathericon{height:50px;min-height:50px;color:#d8dadd;display:flex;align-items:center;justify-content:center}.weathericon svg{width:48px;height:48px;overflow:visible;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}.weathertemp{font-size:28px;font-weight:700;color:#f2f2f2;margin-top:12px}.weathererror{font-size:11px;color:#74777c;padding:12px 0}
 .weathericon .rays{animation:weatherRaysFade 2.25s linear infinite}.weathericon .ray{animation:weatherRaySlide 2.25s cubic-bezier(.22,.61,.36,1) infinite}
@@ -73,11 +73,6 @@
 
 
 .userPickerChoice{width:100%;display:flex;justify-content:space-between;align-items:center;padding:16px 14px;margin:8px 0;background:#0b0c0d;color:var(--text);border:1px solid var(--line);border-radius:14px;text-align:left;font-weight:700}.userPickerChoice.active{border-color:var(--orange);box-shadow:0 0 0 1px #ff7a0033}.userPickerChoice small{color:var(--muted);font-weight:500}
-
-/* Starting Score: visible to everyone, editable only by admin. */
-#startingScoreBtn:disabled{opacity:1;cursor:default;}
-#startingScoreBtn:disabled em{display:none;}
-#startingScoreBtn:disabled{pointer-events:none;}
 </style>
 </head>
 <body>
@@ -92,7 +87,7 @@
 <div id="adminRecordForWrap" style="display:none;margin-bottom:10px"><button id="recordOwnerBtn" class="datebutton">Choose user</button><input id="recordOwnerSelect" type="hidden"></div>
 <button class="datebutton" id="recordDateBtn">Choose date</button><div class="addmodes"><button class="modebtn dry active" id="dryBtn">DRY DAY</button><button class="modebtn drink" id="drinkBtn">DRINK DAY</button></div><button class="save" id="saveBtn">SAVE RECORD</button><button class="clearhistory-btn" id="deleteRecordBtn" style="display:none;margin-top:10px">DELETE THIS RECORD</button></section>
 <section class="box summary"><div class="summarytitle">SUMMARY</div><div class="summarygrid"><div class="summaryitem"><div class="summaryicon blue" id="dryIcon"></div><div class="summaryvalue blue" id="dryStreak">0</div><div class="summarylabel">DRY STREAK</div><div class="summarysub" id="dryBest">Best: 0 days</div></div><div class="summaryitem"><div class="summaryicon orange" id="drinkIcon"></div><div class="summaryvalue orange" id="drinkStreak">0</div><div class="summarylabel">DRINK STREAK</div><div class="summarysub" id="drinkBest">Best: 0 days</div></div><div class="summaryitem"><div class="summaryicon" style="color:var(--purple)" id="trophyIcon"></div><div class="summaryvalue" style="color:var(--purple)">#1</div><div class="summarylabel">RANKING</div><div class="summarysub">Live ranking</div></div><div class="summaryitem"><div class="summaryicon" style="color:var(--green)" id="starIcon"></div><div class="summaryvalue" style="color:var(--green)" id="bestScore">0</div><div class="summarylabel">BEST SCORE</div><div class="summarysub" id="bestScoreDate">—</div></div></div></section>
-<section class="box ranking"><div id="rankingRows"></div><button id="addAccountBtn" class="addAccountBottom adminOnly">+ ADD ACCOUNT</button></section><section class="box logoutHomeBox"><button id="homeLogoutBtn" class="modebtn drink homeLogout">LOG OUT</button></section><div class="note">DRY DAYS • ONE HOMEPAGE</div></main>
+<section class="box ranking"><div class="rankinghead"><div class="title" style="font-size:15px;margin:0">RANKING</div></div><div id="rankingRows"></div><button id="addAccountBtn" class="addAccountBottom adminOnly">+ ADD ACCOUNT</button></section><section class="box logoutHomeBox"><button id="homeLogoutBtn" class="modebtn drink homeLogout">LOG OUT</button></section><div class="note">DRY DAYS • ONE HOMEPAGE</div></main>
 <div class="loginScreen" id="loginScreen"><div class="loginCard"><h1>DRY DAYS</h1><p>Sign in to your account</p><input id="loginUser" placeholder="Username" autocapitalize="none"><input id="loginPass" type="password" placeholder="Password"><button class="modalaction" id="loginBtn">LOGIN</button><div class="loginError" id="loginError"></div></div></div>
 <div class="modal" id="modal"><div class="calendar"><div class="calhead"><button id="prev">‹</button><div class="monthname" id="monthName"></div><button id="next">›</button></div><div class="weeknames"><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span></div><div class="calgrid" id="calGrid"></div><div class="helper">Tap a day to select it immediately</div></div></div>
 <div class="modal" id="userPickerModal"><div class="calendar"><div class="calhead"><div class="monthname">SELECT USER</div><button id="closeUserPicker">×</button></div><div id="userPickerChoices"></div></div></div><div class="toast" id="toast"></div>
@@ -120,7 +115,6 @@ let allRecords=[];
 let seasonStart=key(today), seasonId=1;
 let account={startingScore:0,records:[]};
 let startingScore=0;
-let startingScoreTargetId=null;
 let records=[];
 let selectedDate=new Date(today);
 let calendarMode='record', viewDate=new Date(selectedDate.getFullYear(),selectedDate.getMonth(),1);
@@ -226,12 +220,6 @@ function applyRoleUI(){
   document.body.classList.toggle('admin',isAdmin());
   document.body.classList.toggle('loggedIn',!!activeAccount);
   populateRecordOwnerSelect();
-  const scoreBtn=$('#startingScoreBtn');
-  if(scoreBtn){
-    scoreBtn.disabled=!isAdmin();
-    scoreBtn.setAttribute('aria-disabled',String(!isAdmin()));
-    scoreBtn.title=isAdmin()?'Change Starting Score':'Starting Score can only be changed by an admin';
-  }
 }
 
 async function rpc(name,body={}){
@@ -284,24 +272,6 @@ function streaks(){
     let current=0;
     for(let d=new Date(today);d>=season;d.setDate(d.getDate()-1)){if(recordMap.get(key(d))===type)current++;else break;}
     result[type]={current,best};
-  }
-  return result;
-}
-function bestStreaksForAccount(id){
-  const season=parseDate(seasonStart);
-  const recordMap=new Map(
-    userRecords(id)
-      .filter(r=>parseDate(r.date)>=season&&parseDate(r.date)<=today)
-      .map(r=>[r.date,r.type])
-  );
-  const result={dry:0,drink:0};
-  for(const type of ['dry','drink']){
-    let run=0,best=0;
-    for(let d=new Date(season);d<=today;d.setDate(d.getDate()+1)){
-      if(recordMap.get(key(d))===type){run++;best=Math.max(best,run);}
-      else run=0;
-    }
-    result[type]=best;
   }
   return result;
 }
@@ -368,22 +338,15 @@ function render(){
     deleteRecordBtn.style.display=userRecords(targetId).some(r=>r.date===key(selectedDate))?'block':'none';
   }
 
-  const board=Object.entries(registry).map(([id,meta])=>{
-    const best=bestStreaksForAccount(id);
-    return {id,name:meta.name,score:scoreForAccount(id),bestDry:best.dry,bestDrink:best.drink,missingDays:missingDaysForAccount(id)};
-  }).sort((a,b)=>b.score-a.score||b.bestDry-a.bestDry||a.bestDrink-b.bestDrink);
+  const board=Object.entries(registry).map(([id,meta])=>({id,name:meta.name,score:scoreForAccount(id),missingDays:missingDaysForAccount(id)})).sort((a,b)=>b.score-a.score||a.name.localeCompare(b.name));
   const rankRows=$('#rankingRows');rankRows.innerHTML='';
-  const head=document.createElement('div');
-  head.className='rankingcols';
-  head.innerHTML=`<span class="rankingtitlecell" style="grid-column:1 / span 2">RANKING</span><span class="rankingheadcell blue">${dropSVG}<span class="rankingheadlabel">BEST DRY<br>STREAK</span></span><span class="rankingheadcell orange">${beerSVG}<span class="rankingheadlabel">BEST DRINK<br>STREAK</span></span><span class="rankingheadcell" style="color:var(--green)">${starSVG}<span class="rankingheadlabel">SCORE</span></span>`;
-  rankRows.appendChild(head);
   board.forEach((player,index)=>{
     const row=document.createElement('div');
     row.className='rankrow'+(player.id===activeAccount?' me':'');
     const missingLabel=player.missingDays
-      ?`<span class="missingdays">(${player.missingDays} ${player.missingDays===1?'DAY':'DAYS'})</span>`
+      ?`<span class="missingdays">MISSING ${player.missingDays} ${player.missingDays===1?'DAY':'DAYS'}</span>`
       :'';
-    row.innerHTML=`<span class="pos">${index+1}</span><span class="rankname"><b>${player.name}${player.id===activeAccount?' (You)':''}</b>${missingLabel}</span><span class="rankmetric rankdry">${player.bestDry}</span><span class="rankmetric rankdrink">${player.bestDrink}</span><span class="rankscore">${player.score}</span>`;
+    row.innerHTML=`<span class="pos">${index+1}</span><span class="rankname"><b>${player.name}${player.id===activeAccount?' (You)':''}</b>${missingLabel}</span><span class="rankscore">${player.score}</span>`;
     if(player.id!==activeAccount)row.onclick=()=>openAccountViewer(player.id);
     rankRows.appendChild(row);
   });
@@ -450,6 +413,7 @@ $('#saveBtn').onclick=async()=>{
   allRecords=normalizeRecords(allRecords.concat(optimistic));
   render();
   try{
+    rememberAuditRecord({accountId:targetId,recordDate:d,oldValue:existing?.type||'no record',newValue:mode});
     const saved=targetId===activeAccount
       ?await rpc('app_save_record',{p_token:sessionToken,p_record_date:d,p_record_type:mode})
       :await rpc('app_admin_save_record',{p_token:sessionToken,p_user_id:targetId,p_record_date:d,p_record_type:mode});
@@ -480,6 +444,7 @@ $('#deleteRecordBtn').onclick=async()=>{
   if(!confirm(`Delete record for ${displayDate(d)}?`))return;
   const btn=$('#deleteRecordBtn');btn.disabled=true;
   try{
+    rememberAuditRecord({accountId:targetId,recordDate:d,oldValue:existing.type,newValue:'deleted'});
     if(targetId===activeAccount)await rpc('app_delete_record',{p_token:sessionToken,p_record_date:d});
     else await rpc('app_admin_delete_record',{p_token:sessionToken,p_user_id:targetId,p_record_date:d});
     await syncData();
@@ -564,27 +529,9 @@ viewport.addEventListener('pointercancel',e=>{
   endHistoryDrag();
 });
 
-$('#startingScoreBtn').onclick=()=>{
-  if(!isAdmin())return;
-  startingScoreTargetId=activeAccount;
-  $('#scoreModal').querySelector('h2').textContent='STARTING SCORE';
-  $('#startingScoreInput').value=Number(registry[activeAccount]?.startingScore)||0;
-  $('#scoreModal').classList.add('open');
-};
-$('#saveStartingScore').onclick=async()=>{
-  if(!isAdmin()){toast('Admin access required');return;}
-  const targetId=startingScoreTargetId||activeAccount;
-  const value=Number($('#startingScoreInput').value)||0;
-  const targetName=registry[targetId]?.name||'user';
-  try{
-    await rpc('app_update_starting_score',{p_token:sessionToken,p_user_id:targetId,p_starting_score:value});
-    $('#scoreModal').classList.remove('open');
-    startingScoreTargetId=null;
-    await syncData();
-    toast(`Starting score updated for ${targetName}`);
-  }catch(err){toast(err.message||'Could not update score');}
-};
-$('#scoreModal').onclick=e=>{if(e.target===$('#scoreModal')){startingScoreTargetId=null;$('#scoreModal').classList.remove('open');}};
+$('#startingScoreBtn').onclick=()=>{$('#startingScoreInput').value=startingScore;$('#scoreModal').classList.add('open');};
+$('#saveStartingScore').onclick=async()=>{const value=Number($('#startingScoreInput').value)||0;try{await rpc('app_update_starting_score',{p_token:sessionToken,p_starting_score:value});$('#scoreModal').classList.remove('open');await syncData();toast('Starting score updated');}catch(err){toast(err.message||'Could not update score');}};
+$('#scoreModal').onclick=e=>{if(e.target===$('#scoreModal'))$('#scoreModal').classList.remove('open');};
 
 let passwordChangeTarget=null;
 function openPasswordModal(target=null){
@@ -650,16 +597,6 @@ function renderAdminAccountActions(id,user){clearMassActionBar();
  const head=document.createElement('div');head.className='accountchoice active';head.innerHTML=`<span>${user.name}<small style="display:block;color:#8d9198;margin-top:4px">@${user.username}</small></span><b>${user.role==='admin'?'Admin':'User'}</b>`;box.appendChild(head);
  const role=document.createElement('button');role.className='accountchoice';role.innerHTML=`<span>${user.role==='admin'?'REMOVE ADMIN':'MAKE ADMIN'}</span><b>›</b>`;role.onclick=()=>changeUserRole(id,user);box.appendChild(role);
  const pass=document.createElement('button');pass.className='accountchoice';pass.innerHTML='<span>SET PASSWORD</span><b>›</b>';pass.onclick=()=>changeUserPassword(id,user);box.appendChild(pass);
- const start=document.createElement('button');
- start.className='accountchoice';
- start.innerHTML=`<span>STARTING SCORE</span><b>${Number(user.startingScore)||0} ›</b>`;
- start.onclick=()=>{
-   startingScoreTargetId=id;
-   $('#scoreModal').querySelector('h2').textContent=`STARTING SCORE — ${user.name}`;
-   $('#startingScoreInput').value=Number(registry[id]?.startingScore)||0;
-   $('#scoreModal').classList.add('open');
- };
- box.appendChild(start);
  const mass=document.createElement('button');mass.className='accountchoice';mass.innerHTML='<span>MASS UPDATE</span><b>›</b>';mass.onclick=()=>renderMassUpdate(id,user);box.appendChild(mass);
  const del=document.createElement('button');del.className='accountchoice danger';del.innerHTML='<span>DELETE ACCOUNT</span><b>›</b>';del.onclick=()=>deleteAccount(id);box.appendChild(del);
 }
@@ -778,8 +715,26 @@ async function renderAuditLog(){clearMassActionBar();
  try{
     const rows=await rpc('app_get_audit_log',{p_token:sessionToken});
     load.remove();
-    // Supabase is now the single, central source of truth for the audit log.
-    const auditRows=(Array.isArray(rows)?rows:[]).sort((a,b)=>new Date(b.updatedAt||b.updated_at||0)-new Date(a.updatedAt||a.updated_at||0));
+
+    // Show server audit rows and also self-service homepage changes remembered by this client.
+    // Matching rows are de-duplicated, so Mass Update entries stay server-authoritative.
+    const serverRows=Array.isArray(rows)?rows:[];
+    const localRows=loadAuditDateCache().filter(i=>!serverRows.some(x=>{
+      const payload=x.payload||x.metadata||x.details||x.record||x.change||{};
+      const ov=x.oldValue ?? x.old_value ?? payload.oldValue ?? payload.old_value ?? 'no record';
+      const nv=x.newValue ?? x.new_value ?? payload.newValue ?? payload.new_value ?? '';
+      const aid=String(x.account?.id||x.account?.userId||x.account?.user_id||x.userId||x.user_id||'');
+      const when=x.updatedAt||x.updated_at||x.createdAt||x.created_at||x.when||x.timestamp;
+      const ms=when?new Date(when).getTime():NaN;
+      const serverAccountName=String(x.account?.name||x.account?.username||'');
+      // Never hide a locally captured self-service change unless the server row
+      // belongs to the same account. Empty/missing server account data is not a match.
+      const sameAccount=(aid && i.accountId && aid===i.accountId) ||
+        (serverAccountName && i.accountName && serverAccountName===i.accountName);
+      return ov===i.oldValue && nv===i.newValue && sameAccount &&
+        (!Number.isFinite(ms)||Math.abs(ms-i.createdAt)<15*60*1000);
+    })).map(i=>({updatedAt:new Date(i.createdAt).toISOString(),updatedBy:{name:i.actorName||'User',id:i.actorId},account:{name:i.accountName||'Account',id:i.accountId},oldValue:i.oldValue,newValue:i.newValue,recordDate:i.recordDate}));
+    const auditRows=[...serverRows,...localRows].sort((a,b)=>new Date(b.updatedAt||b.updated_at||b.createdAt||b.created_at||0)-new Date(a.updatedAt||a.updated_at||a.createdAt||a.created_at||0));
 
     auditRows.forEach(x=>{
       const r=document.createElement('div');
@@ -878,7 +833,8 @@ function renderViewerHistory(){
     if(dt<season)continue;
     const r=byDate.get(key(dt));
     const row=document.createElement('div');row.className='viewerRow';
-    row.innerHTML=`<span>${displayDate(key(dt))}</span><b class="viewerType ${r?.type||''}">${r?(r.type==='dry'?'DRY DAY':'DRINK DAY'):'—'}</b>`;
+    const dow=['SUN','MON','TUE','WED','THU','FRI','SAT'][dt.getDay()];
+    row.innerHTML=`<span class="viewerRowDate">${displayDate(key(dt))}</span><span class="viewerRowDow">${dow}</span><b class="viewerType ${r?.type||''}">${r?(r.type==='dry'?'DRY DAY':'DRINK DAY'):'—'}</b>`;
     list.appendChild(row);
   }
   if(!list.children.length)list.innerHTML='<div class="rankingempty">No earlier days in this season</div>';
@@ -957,110 +913,123 @@ function weatherSVG(code){
   if([95,96,99].includes(code))return storm;
   return overcast;
 }
-function weatherCategory(code){
-  if(code===0) return 'clear';
-  if(code===1||code===2) return 'partly';
-  if(code===3) return 'cloud';
-  if([45,48].includes(code)) return 'fog';
-  if([51,53,55,56,57].includes(code)) return 'drizzle';
-  if([61,63,65,66,67,80,81,82].includes(code)) return 'rain';
-  if([71,73,75,77,85,86].includes(code)) return 'snow';
-  if([95,96,99].includes(code)) return 'storm';
-  return 'cloud';
+function dayWeatherCode(codes){
+  const count={clear:0,partly:0,cloud:0,fog:0,drizzle:0,rain:0,snow:0,storm:0};
+  for(const code of codes){
+    if(code===0)count.clear++;
+    else if(code===1||code===2)count.partly++;
+    else if(code===3)count.cloud++;
+    else if(code===45||code===48)count.fog++;
+    else if([51,53,55,56,57].includes(code))count.drizzle++;
+    else if([61,63,65,66,67,80,81,82].includes(code))count.rain++;
+    else if([71,73,75,77,85,86].includes(code))count.snow++;
+    else if([95,96,99].includes(code))count.storm++;
+  }
+
+  const total=codes.length||1;
+  const wet=count.drizzle+count.rain+count.snow+count.storm;
+
+  // Significant precipitation only when it occupies at least 25% of daytime hours.
+  // Short showers therefore do not automatically define the whole day.
+  if(count.storm>=2 && count.storm>=total*.15)return 95;
+  if(count.snow>=Math.max(2,total*.25))return 73;
+  if(count.rain>=Math.max(2,total*.25))return 63;
+  if(count.drizzle>=Math.max(2,total*.35))return 53;
+
+  // Otherwise choose the dominant non-precipitation character of the day.
+  if(count.cloud>=count.clear && count.cloud>=count.partly && count.cloud>=count.fog)return 3;
+  if(count.fog>count.clear && count.fog>count.partly)return 45;
+  if(count.clear>=count.partly)return 0;
+  return 2;
 }
 
 function dayWeatherCode(codes){
-  if(!codes.length) return NaN;
-  const counts=new Map();
-  for(const raw of codes){
-    const code=Number(raw);
-    if(!Number.isFinite(code)) continue;
-    const category=weatherCategory(code);
-    counts.set(category,(counts.get(category)||0)+1);
+  const count={clear:0,partly:0,cloud:0,fog:0,drizzle:0,rain:0,snow:0,storm:0};
+  for(const code of codes){
+    if(code===0)count.clear++;
+    else if(code===1||code===2)count.partly++;
+    else if(code===3)count.cloud++;
+    else if(code===45||code===48)count.fog++;
+    else if([51,53,55,56,57].includes(code))count.drizzle++;
+    else if([61,63,65,66,67,80,81,82].includes(code))count.rain++;
+    else if([71,73,75,77,85,86].includes(code))count.snow++;
+    else if([95,96,99].includes(code))count.storm++;
   }
-  let winner=null, winnerCount=-1;
-  for(const [category,count] of counts){
-    if(count>winnerCount){
-      winner=category;
-      winnerCount=count;
-    }
-  }
-  const representative={
-    clear:0, partly:2, cloud:3, fog:45,
-    drizzle:53, rain:63, snow:73, storm:95
-  };
-  return winner ? representative[winner] : NaN;
+
+  const total=codes.length||1;
+
+  // Significant precipitation only if it occupies a meaningful part of the
+  // daytime period, so a brief shower does not define the whole day.
+  if(count.storm>=2 && count.storm>=total*.15)return 95;
+  if(count.snow>=Math.max(2,total*.25))return 73;
+  if(count.rain>=Math.max(2,total*.25))return 63;
+  if(count.drizzle>=Math.max(2,total*.35))return 53;
+
+  // Otherwise use the prevailing non-precipitation character.
+  if(count.cloud>=count.clear && count.cloud>=count.partly && count.cloud>=count.fog)return 3;
+  if(count.fog>count.clear && count.fog>count.partly)return 45;
+  if(count.clear>=count.partly)return 0;
+  return 2;
 }
 
 async function loadPragueWeather(){
-  const url='https://api.open-meteo.com/v1/forecast?latitude=50.0755&longitude=14.4378&hourly=temperature_2m,weather_code&timezone=Europe%2FPrague&forecast_days=3';
-  const setDay=(i,code,temp)=>{
-    const icon=document.getElementById(`weatherIcon${i}`);
-    const tempEl=document.getElementById(`weatherTemp${i}`);
-    if(icon) icon.innerHTML=Number.isFinite(code)?weatherSVG(code):'—';
-    if(tempEl) tempEl.textContent=Number.isFinite(temp)?`${Math.round(temp)}°C`:'—';
-  };
+  const u='https://api.open-meteo.com/v1/forecast?latitude=50.0755&longitude=14.4378&hourly=temperature_2m,weather_code&timezone=Europe%2FPrague&forecast_days=3';
   try{
-    const r=await fetch(url,{cache:'no-store'});
-    if(!r.ok) throw new Error('Weather unavailable');
+    const r=await fetch(u);
+    if(!r.ok)throw 0;
     const d=await r.json();
     const times=d?.hourly?.time||[];
     const temps=d?.hourly?.temperature_2m||[];
     const codes=d?.hourly?.weather_code||[];
-    const pragueNow=new Date(new Intl.DateTimeFormat('en-US',{
-      timeZone:'Europe/Prague',
-      year:'numeric',month:'numeric',day:'numeric',
-      hour:'numeric',minute:'numeric',second:'numeric',
-      hour12:false
-    }).format(new Date()));
 
-    const nextHour=pragueNow.getMinutes()===0 && pragueNow.getSeconds()===0
-      ? new Date(pragueNow)
-      : new Date(pragueNow.getFullYear(),pragueNow.getMonth(),pragueNow.getDate(),pragueNow.getHours()+1);
-    const nextKey=key(nextHour)+'T'+String(nextHour.getHours()).padStart(2,'0')+':00';
-
-    // TODAY: the next 3 available hourly values after the current Prague time.
-    const todayIndices=[];
-    for(let i=0;i<times.length && todayIndices.length<3;i++){
-      if(times[i]>=nextKey) todayIndices.push(i);
+    const dates=[];
+    for(const time of times){
+      const date=time.slice(0,10);
+      if(!dates.includes(date))dates.push(date);
+      if(dates.length===3)break;
     }
-    const todayTemps=todayIndices.map(i=>Number(temps[i])).filter(Number.isFinite);
-    const todayCodes=todayIndices.map(i=>Number(codes[i])).filter(Number.isFinite);
-    const todayAvg=todayTemps.length
-      ? todayTemps.reduce((a,b)=>a+b,0)/todayTemps.length
-      : NaN;
-    setDay(0,dayWeatherCode(todayCodes),todayAvg);
 
-    // TOMORROW + DAY AFTER: all hourly values from 07:00 through 21:00 inclusive.
-    const todayKey=key(pragueNow);
-    const dates=[...new Set(times.map(t=>t.slice(0,10)))]
-      .filter(date=>date>todayKey)
-      .slice(0,2);
-
-    dates.forEach((date,index)=>{
-      const day=index+1, dayTemps=[], dayCodes=[];
+    for(let day=0;day<3;day++){
+      const date=dates[day];
+      const dayTemps=[], dayCodes=[];
+      const now=new Date();
+      let startHour=9,endHour=19;
+      if(day===0){
+        const currentHour=Number(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Prague',hour:'2-digit',hour12:false}).format(now));
+        startHour=currentHour+1; endHour=currentHour+3;
+      }
       for(let i=0;i<times.length;i++){
-        if(!times[i].startsWith(date+'T')) continue;
-        const hour=Number(times[i].slice(11,13));
-        if(hour>=7 && hour<=21){
-          const temp=Number(temps[i]), code=Number(codes[i]);
-          if(Number.isFinite(temp)) dayTemps.push(temp);
-          if(Number.isFinite(code)) dayCodes.push(code);
+        if(date && times[i].startsWith(date+'T')){
+          const hour=Number(times[i].slice(11,13));
+          if(hour>=startHour && hour<=endHour){
+            if(Number.isFinite(temps[i]))dayTemps.push(temps[i]);
+            if(Number.isFinite(codes[i]))dayCodes.push(codes[i]);
+          }
         }
       }
-      const avg=dayTemps.length
-        ? dayTemps.reduce((a,b)=>a+b,0)/dayTemps.length
-        : NaN;
-      setDay(day,dayWeatherCode(dayCodes),avg);
-    });
 
-    for(let i=1;i<3;i++){
-      if(!dates[i-1]) setDay(i,NaN,NaN);
+      const icon=document.getElementById(`weatherIcon${day}`);
+      const temp=document.getElementById(`weatherTemp${day}`);
+
+      if(icon)icon.innerHTML=dayCodes.length?weatherSVG(dayWeatherCode(dayCodes)):'—';
+
+      if(temp && dayTemps.length){
+        const avg=dayTemps.reduce((sum,value)=>sum+value,0)/dayTemps.length;
+        temp.textContent=`${Math.round(avg)}°C`;
+      }else if(temp){
+        temp.textContent='—';
+      }
     }
-  }catch(err){
-    for(let i=0;i<3;i++) setDay(i,NaN,NaN);
+  }catch(e){
+    for(let i=0;i<3;i++){
+      const icon=document.getElementById(`weatherIcon${i}`);
+      const temp=document.getElementById(`weatherTemp${i}`);
+      if(icon)icon.innerHTML='—';
+      if(temp)temp.textContent='—';
+    }
   }
 }
+
 loadPragueWeather();
 init();
 setInterval(()=>{if(sessionToken&&document.visibilityState==='visible')syncData({quiet:true});},5000);
